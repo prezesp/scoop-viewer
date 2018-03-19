@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['browser.py'],
-             pathex=['F:\\Prezes\\Projects\\Python\\wx'],
+             pathex=[],
              binaries=[],
              datas=[('.\\webapp\\templates', 'templates\\'), ('.\\config.yml', '.\\')],
              hiddenimports=[],

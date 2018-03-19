@@ -1,0 +1,24 @@
+environment:
+  nodejs_version: "8"
+   
+  matrix:
+    - PYTHON: "C:\\Python36-x64"
+
+install:
+  - "%PYTHON%\\python.exe -m pip install -r requirements.txt"
+  - ps: Install-Product node $env:nodejs_version
+  - npm install -g gulp
+  - "npm --prefix .\\webapp\\frontend install .\\webapp\\frontend"
+  - "gulp --cwd .\\webapp\\frontend"
+  - "dir %PYTHON%"
+
+build: off
+
+test_script:
+
+after_test:
+  - "%PYTHON%\\Scripts\\pyinstaller.exe --clean .\\browser.spec"
+  - "dir"
+
+artifacts:
+  - path: dist
