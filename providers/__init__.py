@@ -1,0 +1,1 @@
+from providers.scoop_provider import ScoopProvider
