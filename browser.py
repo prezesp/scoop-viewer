@@ -31,7 +31,7 @@ class Viewer(wx.Frame):
       self.webapp = None
 
     # Close app
-    quit()
+    sys.exit()
     
   def onNewWindow(self, event):
     print ("onNewWindow called")
@@ -53,7 +53,7 @@ class FlaskThread(Thread):
 
   def run(self):
     #self.application.debug = True
-    self.application.run(port=PORT)
+    self.application.run(port=PORT, threaded=True)
 
 
 
