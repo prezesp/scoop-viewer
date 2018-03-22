@@ -1,28 +1,31 @@
-from explorer import Explorer
-from flask import request
+""" Helpers function. """
+
 import logging
 import yaml
+from flask import request
+from explorer import Explorer
 
 
-def get_apps(provider, q):
-  config = yaml.load(open('config.yml'))
-  ex = Explorer()
-  #apps = ex.getApps('/Users/prezes/Projects/Python/wx/example-bucket', q);
-  print (config['SCOOP_BUCKET'])
-  apps = ex.getApps(config['SCOOP_BUCKET'], q);
-  logging.info("apps: " + str(len(apps)))
-  installed = provider.get_installed()
-  print (installed)
-  
-  # check if already installed
-  for app in apps:
-    app['installed'] = app['name'] in installed
+def get_apps(provider, query):
+    """ Get all apps from bucket. """
 
-  return apps
+    config = yaml.load(open('config.yml'))
+    ex = Explorer()
+    logging.info('Read bucket: %s', config['SCOOP_BUCKET'])
+    apps = ex.get_apps(config['SCOOP_BUCKET'], query)
+    logging.info("Apps count = %d", len(apps))
+    installed = provider.get_installed()
+
+    # check if already installed
+    for app in apps:
+        app['installed'] = app['name'] in installed
+
+    return apps
 
 
 def shutdown_server():
-  func = request.environ.get('werkzeug.server.shutdown')
-  if func is None:
-    raise RuntimeError('Not running with the Werkzeug Server')
-  func()
+    """ Shutdown server properly. """
+    func = request.environ.get('werkzeug.server.shutdown')
+    if func is None:
+        raise RuntimeError('Not running with the Werkzeug Server')
+    func()
