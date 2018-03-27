@@ -16,7 +16,7 @@ build: off
 test_script:
 
 after_test:
-  - "%PYTHON%\\Scripts\\pyinstaller.exe --clean .\\browser.spec"
+  - "%PYTHON%\\Scripts\\pyinstaller.exe --clean .\\scoop-viewer.spec"
 
 artifacts:
   - path: dist

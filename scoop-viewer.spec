@@ -3,7 +3,7 @@
 block_cipher = None
 
 
-a = Analysis(['browser.py'],
+a = Analysis(['scoop-viewer.py'],
              pathex=[],
              binaries=[],
              datas=[('.\\webapp\\templates', 'templates\\'), ('.\\config.yml', '.\\'), ('.\\res', 'res\\')],
@@ -19,7 +19,7 @@ pyz = PYZ(a.pure, a.zipped_data,
 exe = EXE(pyz,
           a.scripts,
           exclude_binaries=True,
-          name='browser',
+          name='scoop-viewer',
           debug=False,
           strip=False,
           upx=True,
@@ -30,4 +30,4 @@ coll = COLLECT(exe,
                a.datas,
                strip=False,
                upx=True,
-               name='browser')
+               name='scoop-viewer')
