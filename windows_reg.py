@@ -9,7 +9,7 @@ def run_as_ie11():
 
     current_file = __file__
     if ".pyc" in current_file:
-        value = "browser.exe"
+        value = "scoop-viewer.exe"
     else:
         value = "python.exe"
 

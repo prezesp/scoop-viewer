@@ -13,7 +13,7 @@ A gui client for [scoop](http://scoop.sh) - _a command-line installer for Window
 Instalation
 -
 <pre>
-$ scoop add bucket scoop-viewer-bucket https://github.com/prezesp/scoop-viewer-bucket.git
+$ scoop bucket add scoop-viewer-bucket https://github.com/prezesp/scoop-viewer-bucket.git
 $ scoop install scoop-viewer
 $ scoop-viewer.exe
 </pre>
