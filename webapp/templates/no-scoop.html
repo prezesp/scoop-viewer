@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+   <title>Hello World!</title>
+   <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}">
+   <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/ladda/ladda-themeless.min.css')}}">
+   <link rel="stylesheet" href="{{url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css')}}">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+      <a class="navbar-brand" href="#">{{ config.app_name }}</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/prezesp" target="_blank"><i class="fa fa-github" aria-hidden="true"></i> Website</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div style="height: 100px">
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 text-center">
+          <h4><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Scoop was not installed</h4>
+          <p><a href="http://scoop.sh" target="_blank">go to scoop.sh</a></p>
+        </div>
+      </div>
+    </div>
+
+    <script type=text/javascript src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script type=text/javascript src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script type=text/javascript src="{{ url_for('static', filename='vendor/ladda/spin.min.js') }}"></script>
+    <script type=text/javascript src="{{ url_for('static', filename='vendor/ladda/ladda.min.js') }}"></script>
+  </body>
+</html>

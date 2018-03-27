@@ -1,6 +1,7 @@
 """ Helpers function. """
 
 import logging
+import os
 import yaml
 from flask import request
 from explorer import Explorer
@@ -9,7 +10,8 @@ from explorer import Explorer
 def get_apps(provider, query):
     """ Get all apps from bucket. """
 
-    config = yaml.load(open('config.yml'))
+    workdir = os.path.dirname(os.path.realpath(__file__))
+    config = yaml.load(open(os.path.join(workdir, '..', 'config.yml')))
     ex = Explorer()
     logging.info('Read bucket: %s', config['SCOOP_BUCKET'])
     apps = ex.get_apps(config['SCOOP_BUCKET'], query)

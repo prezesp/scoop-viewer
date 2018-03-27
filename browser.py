@@ -10,6 +10,7 @@ import wx
 import wx.adv
 import wx.html2
 from webapp.routes import app
+from splashscreen import splash_screen
 
 APP_NAME = 'scoop-viewer'
 PORT = 5030
@@ -73,11 +74,7 @@ def run():
     """ Start app. """
     wx_app = wx.App()
 
-    bitmap = wx.Bitmap('res/splash.png', wx.BITMAP_TYPE_PNG)
-    wx.adv.SplashScreen(bitmap, wx.adv.SPLASH_CENTRE_ON_SCREEN | wx.adv.SPLASH_TIMEOUT,
-                        2500, None, -1, wx.DefaultPosition, wx.DefaultSize,
-                        wx.BORDER_SIMPLE | wx.STAY_ON_TOP)
-    wx.Yield()
+    splash_screen()
 
     viewer = Viewer(None, title="scoop-viewer")
     viewer.browser.LoadURL(ROOT_URL)
