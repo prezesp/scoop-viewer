@@ -1,10 +1,11 @@
 """ Module to modify windows registry. """
 import winreg as wreg
+import logging
 
 def run_as_ie11():
     """ Change webbrowser to act like IE11. """
-    print("hello windows")
-    print(__file__)
+
+    logging.debug("Windows webbrowser act like IE11")
 
     current_file = __file__
     if ".pyc" in current_file:

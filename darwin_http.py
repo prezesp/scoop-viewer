@@ -1,4 +1,5 @@
 """ Module dedicated for macOS. """
+import logging
 from objc import YES
 from AppKit import NSBundle
 
@@ -7,4 +8,4 @@ def hack():
     bundle = NSBundle.mainBundle()
     info = bundle.localizedInfoDictionary() or bundle.infoDictionary()
     info['NSAppTransportSecurity'] = {'NSAllowsArbitraryLoads': YES}
-    print("Your Macocracy has been hacked...")
+    logging.debug("Your Macocracy has been hacked...")

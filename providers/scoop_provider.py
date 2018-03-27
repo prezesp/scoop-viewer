@@ -6,7 +6,6 @@ class ScoopProvider:
 
     def __init__(self, workdir):
         self.workdir = workdir
-        print(self.workdir)
 
     def get_installed(self): # pylint: disable=R0201
         """ Get all installed app from scoop. """

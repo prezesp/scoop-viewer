@@ -7,6 +7,7 @@ from threading import Thread
 
 import requests
 import wx
+import wx.adv
 import wx.html2
 from webapp.routes import app
 
@@ -28,8 +29,9 @@ class Viewer(wx.Frame): # pylint: disable=too-many-ancestors
         self.SetSizer(sizer)
         self.SetSize((1024, 700))
         self.Bind(wx.EVT_CLOSE, self.on_exit)
+        self.Center()
 
-            # start webapp
+        # start webapp
         self.webapp = FlaskThread(app)
         self.webapp.start()
 
@@ -70,9 +72,17 @@ class FlaskThread(Thread):
 def run():
     """ Start app. """
     wx_app = wx.App()
+
+    bitmap = wx.Bitmap('res/splash.png', wx.BITMAP_TYPE_PNG)
+    wx.adv.SplashScreen(bitmap, wx.adv.SPLASH_CENTRE_ON_SCREEN | wx.adv.SPLASH_TIMEOUT,
+                        2500, None, -1, wx.DefaultPosition, wx.DefaultSize,
+                        wx.BORDER_SIMPLE | wx.STAY_ON_TOP)
+    wx.Yield()
+
     viewer = Viewer(None, title="scoop-viewer")
     viewer.browser.LoadURL(ROOT_URL)
     viewer.Show()
+
     wx_app.MainLoop()
 
 if __name__ == '__main__':
