@@ -1,1 +1,1 @@
-from providers.scoop_provider import ScoopProvider
+from providers.scoop_provider import ScoopProvider, ScoopNotInstalled

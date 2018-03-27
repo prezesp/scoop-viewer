@@ -3,7 +3,7 @@
 import os
 import sys
 from flask import Flask, render_template, request
-from providers import ScoopProvider
+from providers import ScoopProvider, ScoopNotInstalled
 from webapp.utils import get_apps, shutdown_server
 
 # Hack for pyinstaller
@@ -25,8 +25,11 @@ def shutdown():
 @app.route('/')
 def index():
     """ List all available app. """
-    provider = ScoopProvider(os.path.dirname(os.path.realpath(__file__)))
-    return render_template('index.html', apps=get_apps(provider, None))
+    try:
+        provider = ScoopProvider(os.path.dirname(os.path.realpath(__file__)))
+        return render_template('index.html', apps=get_apps(provider, None))
+    except ScoopNotInstalled:
+        return render_template('no-scoop.html')
 
 
 @app.route('/search/')

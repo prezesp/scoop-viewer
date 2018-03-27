@@ -1,11 +1,28 @@
 """ Module to interact with scoop. """
 from subprocess import Popen, PIPE
+import logging
+
+class ScoopNotInstalled(Exception):
+    """ Exception thrown when scoop was not detected. """
+    pass
 
 class ScoopProvider:
     """ Module to interact with scoop. """
 
     def __init__(self, workdir):
         self.workdir = workdir
+        process = Popen(['powershell.exe', 'scoop', '--version'],
+                        stdin=PIPE, stdout=PIPE, stderr=PIPE)
+        stdout, stderr = process.communicate()
+        stdout = stdout.decode("utf-8")
+        stderr = stderr.decode("utf-8")
+        if stderr:
+            raise ScoopNotInstalled('Scoop is not installed')
+        try:
+            self.version = stdout.split('\n')[1].split(' ')[0]
+        except IndexError:
+            logging.warning('Cannot read scoop version')
+            self.version = 'unknown'
 
     def get_installed(self): # pylint: disable=R0201
         """ Get all installed app from scoop. """
