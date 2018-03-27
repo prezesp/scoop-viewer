@@ -20,4 +20,4 @@ after_test:
 
 artifacts:
   - path: dist
-    name: MyApp
+    name: scoop-viewer
