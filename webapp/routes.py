@@ -9,8 +9,10 @@ from webapp.utils import get_apps, shutdown_server
 # Hack for pyinstaller
 # pylint: disable=E1101, W0212, C0103
 if getattr(sys, 'frozen', False):
-    template_folder = os.path.join(sys._MEIPASS, 'templates')
-    app = Flask(__name__, template_folder=template_folder)
+    template_folder = os.path.join(sys.executable, '..', 'templates')
+    static_folder = os.path.join(sys.executable, '..', 'static')
+    #template_folder = os.path.join(sys._MEIPASS, 'templates')
+    app = Flask(__name__, template_folder=template_folder, static_folder = static_folder)
 else:
     app = Flask(__name__)
 
