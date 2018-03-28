@@ -5,6 +5,12 @@
    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}">
    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/ladda/ladda-themeless.min.css')}}">
    <link rel="stylesheet" href="{{url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css')}}">
+   <style type="text/css">
+     .app-is-installed .action-install,
+     .app-not-installed .action-uninstall {
+        display: none;
+     }
+   </style>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
@@ -32,7 +38,7 @@
     <div style="height: 100px">
     </div>
 
-    <div class="container">
+    <div id="apps-list" class="container">
       {% for app in apps %}
         <div class="row">
           <div class="col-sm-10">
@@ -40,24 +46,9 @@
             <p> {{ app['description'] }} </p>
             <p> <small>{{ app['homepage'] }} </small></p>
           </div>
-          <div class="col-sm-2 text-right">
-            {% if app['installed'] == True %}
-              <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                <button type="button" class="btn btn-success btn-sm">Installed</button>
-
-                <div class="btn-group" role="group">
-                  <button id="btnGroupDrop{{app['name']}}" type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="sr-only">Toggle Dropdown</span>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop{{app['name']}}" style="font-size:.875rem;padding: 0">
-                    <a class="dropdown-item" data-app="{{ app['name'] }}">Uninstall</a>
-                  </div>
-                </div>
-              </div>
-              <!--button type="button" class="btn btn-primary btn-success btn-sm" data-app="{{ app['name'] }}">Uninstall</button-->
-            {% else %}
-              <button type="button" class="btn btn-primary btn-sm" data-app="{{ app['name'] }}"><i class="fa fa-download" aria-hidden="true"></i> Install</button>
-            {% endif %}
+          <div class="col-sm-2 text-right {% if app['installed'] == True %}app-is-installed{% else %}app-not-installed{% endif %}">
+              <button type="button" class="action-uninstall btn btn-primary btn-success btn-sm" data-app="{{ app['name'] }}">Uninstall</button>
+              <button type="button" class="action-install btn btn-primary btn-sm" data-app="{{ app['name'] }}"><i class="fa fa-download" aria-hidden="true"></i> Install</button>
           </div>
         </div>
         <hr/>
@@ -80,44 +71,36 @@
       $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 
       $(function() {
-        var installAction = function() {
-          var $button = $(this);
-          if (!$button.hasClass('btn-success')) {
-            var app = $button.data('app');
-            var l = Ladda.create($button[0]);
-            l.start();
-            //alert(app);
-            $.ajax({
-              url: $SCRIPT_ROOT + '/app/' + app +'/install'
-            }).done(function() {
-              l.stop();
-              $button.addClass("btn-success").html("Installed");
-            });
-          }
-        };
-
-        var uninstallAction = function() {
+        var callButtonAction = function(actionName, whenDoneFunc) {
           var $button = $(this);
           var app = $button.data('app');
+          var url = $SCRIPT_ROOT + '/app/' + app +'/' + actionName;
+          var l = Ladda.create($button[0]);
+          l.start();
+
           $.ajax({
-            url: $SCRIPT_ROOT + '/app/' + app +'/uninstall'
+            url: url,
+            cache: false
           }).done(function() {
-            var buttonGroup = $button.closest('.btn-group').parent();
-            var parent = buttonGroup.parent();
-            buttonGroup.remove();
-            $('<button/>', {
-              'class': 'btn btn-primary btn-sm',
-              'type': 'button',
-              'data-app': app,
-              'click': installAction,
-              'html': '<i class="fa fa-download" aria-hidden="true"></i> Install'
-            }).appendTo(parent);
+            l.stop();
+            whenDoneFunc($button)
           });
         };
 
-        $('button[data-app]').click(installAction);
+        var installAction = function() {
+          callButtonAction.call(this, 'install', function($button) {
+            $button.parent().addClass('app-is-installed').removeClass('app-not-installed')
+          });
+        };
 
-        $('a[data-app]').click(uninstallAction);
+        var uninstallAction = function() {
+          callButtonAction.call(this, 'uninstall', function($button) {
+            $button.parent().removeClass('app-is-installed').addClass('app-not-installed')
+          });
+        };
+
+        $('#apps-list').on('click', '.action-uninstall[data-app]', uninstallAction);
+        $('#apps-list').on('click', '.action-install[data-app]', installAction);
        });
     </script>
   </body>
