@@ -39,11 +39,19 @@ class ScoopProvider:
 
         process = Popen(['powershell.exe', 'scoop', 'install', app],
                         stdin=PIPE, stdout=PIPE, stderr=PIPE)
-        _, _ = process.communicate()
+        stdout, stderr = process.communicate()
+        stdout = stdout.decode("utf-8")
+        stderr = stderr.decode("utf-8")
+
+        return {"stdout": stdout, "stderr": stderr, "returncode": process.returncode}
 
     def uninstall(self, app): # pylint: disable=R0201
         """ Uninstal app. """
 
         process = Popen(['powershell.exe', 'scoop', 'uninstall', app],
                         stdin=PIPE, stdout=PIPE, stderr=PIPE)
-        _, _ = process.communicate()
+        stdout, stderr = process.communicate()
+        stdout = stdout.decode("utf-8")
+        stderr = stderr.decode("utf-8")
+
+        return {"stdout": stdout, "stderr": stderr, "returncode": process.returncode}
