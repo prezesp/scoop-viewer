@@ -1,5 +1,6 @@
 """ Server module with defined routes. """
 
+import json
 import os
 import sys
 from flask import Flask, render_template, request
@@ -46,13 +47,11 @@ def search():
 def install(app_name):
     """ Install app. """
     provider = ScoopProvider(os.path.dirname(os.path.realpath(__file__)))
-    provider.install(app_name)
-    return "OK"
+    return json.dumps(provider.install(app_name))
 
 
 @app.route('/app/<app_name>/uninstall')
 def uninstall(app_name):
     """ Uninstall app. """
     provider = ScoopProvider(os.path.dirname(os.path.realpath(__file__)))
-    provider.uninstall(app_name)
-    return "OK"
+    return json.dumps(provider.uninstall(app_name))
