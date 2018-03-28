@@ -14,7 +14,7 @@ def get_apps(provider, query):
     config = yaml.load(open(os.path.join(workdir, '..', 'config.yml')))
     ex = Explorer()
     logging.info('Read bucket: %s', config['SCOOP_BUCKET'])
-    apps = ex.get_apps(config['SCOOP_BUCKET'], query)
+    apps = ex.get_apps(os.path.expandvars(config['SCOOP_BUCKET']), query)
     logging.info("Apps count = %d", len(apps))
     installed = provider.get_installed()
 
