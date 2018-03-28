@@ -2,14 +2,30 @@
 <html lang="en">
   <head>
    <title>Hello World!</title>
+   <script src="http://localhost:1337/vorlon.js"></script>
    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}">
    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/ladda/ladda-themeless.min.css')}}">
    <link rel="stylesheet" href="{{url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css')}}">
    <style type="text/css">
-     .app-is-installed .action-install,
-     .app-not-installed .action-uninstall {
+      .app-is-installed .action-install,
+      .app-not-installed .action-uninstall {
         display: none;
-     }
+      }
+
+      #errors {
+        position: fixed;
+        z-index: 10;
+        width: 90%;
+        margin: 0 5%;
+        max-height: 90%;
+        overflow: auto;
+      }
+
+      #errors pre {
+        background: rgba(255,255,255,0.5);
+        padding: 0 10px;
+        border-radius: 5px;
+      }
    </style>
   </head>
   <body>
@@ -37,6 +53,8 @@
 
     <div style="height: 100px">
     </div>
+
+    <div id="errors"></div>
 
     <div id="apps-list" class="container">
       {% for app in apps %}
@@ -80,22 +98,42 @@
 
           $.ajax({
             url: url,
-            cache: false
-          }).done(function() {
+            cache: false,
+            dataType: 'json'
+          }).done(function(r) {
             l.stop();
-            whenDoneFunc($button)
+            if (r.returncode !== 0) {
+              var header = "<h3>Action failed!</h3>";
+              var stdout = $("<pre/>").text(r.stdout);
+              var stderr = $("<pre/>").text(r.stderr);
+              var alert = $('<div class="alert alert-danger" role="alert">')
+              var alertButton = $('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>')
+
+              alert
+                .append(alertButton)
+                .append(header)
+                .append(stderr)
+                .append(stdout)
+
+              $('#errors').append(alert)
+            }
+            whenDoneFunc($button, r.returncode === 0)
           });
         };
 
         var installAction = function() {
-          callButtonAction.call(this, 'install', function($button) {
-            $button.parent().addClass('app-is-installed').removeClass('app-not-installed')
+          callButtonAction.call(this, 'install', function($button, isSuccess) {
+            if (isSuccess) {
+              $button.parent().addClass('app-is-installed').removeClass('app-not-installed')
+            }
           });
         };
 
         var uninstallAction = function() {
-          callButtonAction.call(this, 'uninstall', function($button) {
-            $button.parent().removeClass('app-is-installed').addClass('app-not-installed')
+          callButtonAction.call(this, 'uninstall', function($button, isSuccess) {
+            if (isSuccess) {
+              $button.parent().removeClass('app-is-installed').addClass('app-not-installed')
+            }
           });
         };
 
