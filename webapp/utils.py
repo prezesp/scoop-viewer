@@ -11,7 +11,8 @@ def get_apps(provider, query):
     """ Get all apps from bucket. """
 
     workdir = os.path.dirname(os.path.realpath(__file__))
-    config = yaml.load(open(os.path.join(workdir, '..', 'config.yml')))
+    with open(os.path.join(workdir, '..', 'config.yml')) as f:
+        config = yaml.load(f)
     ex = Explorer()
     logging.info('Read bucket: %s', config['SCOOP_BUCKET'])
     apps = ex.get_apps(config['SCOOP_BUCKET'], query)
