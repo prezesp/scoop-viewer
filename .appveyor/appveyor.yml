@@ -8,7 +8,7 @@ install:
   - "%PYTHON%\\python.exe -m pip install -r requirements.txt"
   - ps: Install-Product node $env:nodejs_version
   - npm install -g gulp
-  - "cd webapp\frontend && npm install && gulp"
+  - "cd webapp\\frontend && npm install && gulp"
 
 build: off
 
