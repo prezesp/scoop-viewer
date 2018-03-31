@@ -1,1 +1,1 @@
-SCOOP_BUCKET: '%USERPROFILE%\scoop\apps\scoop\current\bucket'
+SCOOP_BUCKET: '%PWD%/providers/mock/bucket'

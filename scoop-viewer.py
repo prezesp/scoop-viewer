@@ -1,5 +1,6 @@
 """ App to browse scoop packages. """
 
+import argparse
 import platform
 import sys
 import webbrowser
@@ -15,6 +16,7 @@ from splashscreen import splash_screen
 APP_NAME = 'scoop-viewer'
 PORT = 5030
 ROOT_URL = 'http://localhost:{}'.format(PORT)
+TEST = False
 
 class Viewer(wx.Frame): # pylint: disable=too-many-ancestors
     """ Gui window. """
@@ -61,6 +63,7 @@ class FlaskThread(Thread):
         Thread.__init__(self)
         self.application = application
         self.application.config['app_name'] = 'scoop-viewer'
+        self.application.config['test'] = TEST
 
     def __del__(self):
         pass
@@ -69,6 +72,13 @@ class FlaskThread(Thread):
         #self.application.debug = True
         self.application.run(port=PORT, threaded=True)
 
+def parse():
+    """ Parse app argument. """
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--test', dest='test', action='store_const',
+                        const=True, default=False)
+    return parser.parse_args()
+    
 
 def run():
     """ Start app. """
@@ -90,6 +100,10 @@ if __name__ == '__main__':
     elif platform.system() == "Windows":
         from windows_reg import run_as_ie11
         run_as_ie11()
+    
+    # is test environment?
+    TEST = parse().test
 
     # start app
     run()
+

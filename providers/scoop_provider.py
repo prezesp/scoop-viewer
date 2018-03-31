@@ -9,8 +9,7 @@ class ScoopNotInstalled(Exception):
 class ScoopProvider:
     """ Module to interact with scoop. """
 
-    def __init__(self, workdir):
-        self.workdir = workdir
+    def __init__(self):
         process = Popen(['powershell.exe', 'scoop', '--version'],
                         stdin=PIPE, stdout=PIPE, stderr=PIPE)
         stdout, stderr = process.communicate()

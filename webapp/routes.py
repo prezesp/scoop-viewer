@@ -3,8 +3,8 @@
 import os
 import sys
 from flask import Flask, render_template, request
-from providers import ScoopProvider, ScoopNotInstalled
-from webapp.utils import get_apps, shutdown_server
+from providers import ScoopProvider, ScoopNotInstalled, ScoopMockProvider
+from webapp.utils import get_apps, shutdown_server, get_provider
 
 # Hack for pyinstaller
 # pylint: disable=E1101, W0212, C0103
@@ -28,7 +28,7 @@ def shutdown():
 def index():
     """ List all available app. """
     try:
-        provider = ScoopProvider(os.path.dirname(os.path.realpath(__file__)))
+        provider = get_provider(app.config)
         return render_template('index.html', apps=get_apps(provider, None))
     except ScoopNotInstalled:
         return render_template('no-scoop.html')
@@ -37,7 +37,7 @@ def index():
 @app.route('/search/')
 def search():
     """ Search for an app. """
-    provider = ScoopProvider(os.path.dirname(os.path.realpath(__file__)))
+    provider = get_provider(app.config)
     query = request.args.get('q', default='*', type=str)
     return render_template('index.html', apps=get_apps(provider, query), q=query)
 
@@ -45,7 +45,7 @@ def search():
 @app.route('/app/<app_name>/install')
 def install(app_name):
     """ Install app. """
-    provider = ScoopProvider(os.path.dirname(os.path.realpath(__file__)))
+    provider = get_provider(app.config)
     provider.install(app_name)
     return "OK"
 
@@ -53,6 +53,6 @@ def install(app_name):
 @app.route('/app/<app_name>/uninstall')
 def uninstall(app_name):
     """ Uninstall app. """
-    provider = ScoopProvider(os.path.dirname(os.path.realpath(__file__)))
+    provider = get_provider(app.config)
     provider.uninstall(app_name)
     return "OK"
