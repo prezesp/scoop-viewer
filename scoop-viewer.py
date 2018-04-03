@@ -10,7 +10,7 @@ import requests
 import wx
 import wx.adv
 import wx.html2
-from webapp.routes import app
+from webapp.routes import create_app
 from splashscreen import splash_screen
 
 APP_NAME = 'scoop-viewer'
@@ -35,7 +35,7 @@ class Viewer(wx.Frame): # pylint: disable=too-many-ancestors
         self.Center()
 
         # start webapp
-        self.webapp = FlaskThread(app)
+        self.webapp = FlaskThread(create_app('app'))
         self.webapp.start()
 
     # pylint: disable=W0613
