@@ -10,10 +10,22 @@ _Work in progress_
 A gui client for [scoop](http://scoop.sh) - _a command-line installer for Windows_.
 
 
-Instalation
+Installation
 -
-<pre>
+```
 $ scoop bucket add scoop-viewer-bucket https://github.com/prezesp/scoop-viewer-bucket.git
 $ scoop install scoop-viewer
-$ scoop-viewer.exe
-</pre>
+```
+
+Launch:
+-
+```
+$ scoop gui
+```
+
+or 
+```
+$ scoopviewer
+```
+
+
