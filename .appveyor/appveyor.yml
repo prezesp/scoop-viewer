@@ -9,10 +9,13 @@ install:
   - ps: Install-Product node $env:nodejs_version
   - npm install -g gulp
   - "cd webapp\\frontend && npm install && gulp"
+  - choco install firefox
+  - choco install selenium-gecko-driver
 
 build: off
 
 test_script:
+  - "%PYTHON%\\python.exe -m tests.test -v"
 
 after_test:
   - "%PYTHON%\\Scripts\\pyinstaller.exe --clean .\\scoop-viewer.spec"

@@ -2,20 +2,27 @@
 
 import logging
 import os
-import yaml
+import platform
+import re
 from flask import request
 from explorer import Explorer
+from providers import ScoopProvider, ScoopMockProvider
 
-
-def get_apps(provider, query):
-    """ Get all apps from bucket. """
-
+def expandvars(text):
+    """ Standard expandvars extended by replacing macOS variables. """
+    if platform.system() == "Darwin":
+        text = re.sub(r'\%(.*?)\%', lambda m: os.environ[m.group().replace('%', '')], text)
+    
     workdir = os.path.dirname(os.path.realpath(__file__))
-    with open(os.path.join(workdir, '..', 'config.yml')) as f:
-        config = yaml.load(f)
+    text = text.replace('%CD%', workdir)
+    return os.path.expandvars(text)
+
+
+def get_apps(provider, bucket_path, query):
+    """ Get all apps from bucket. """
     ex = Explorer()
-    logging.info('Read bucket: %s', config['SCOOP_BUCKET'])
-    apps = ex.get_apps(os.path.expandvars(config['SCOOP_BUCKET']), query)
+    logging.info('Read bucket: %s', bucket_path)
+    apps = ex.get_apps(expandvars(bucket_path), query)
     logging.info("Apps count = %d", len(apps))
     installed = provider.get_installed()
 
@@ -25,6 +32,11 @@ def get_apps(provider, query):
 
     return apps
 
+def get_provider(app_config):
+    """ Return provider for current configuration. """
+    if 'test' in app_config and app_config['test']:
+        return ScoopMockProvider()
+    return ScoopProvider()
 
 def shutdown_server():
     """ Shutdown server properly. """
