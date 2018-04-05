@@ -16,6 +16,8 @@ def create_app(config_name):
         app = Flask(__name__, template_folder=template_folder, static_folder = static_folder)
     else:
         app = Flask(__name__)
+    if config_name == 'testing':
+        app.config['test'] = True
 
     @app.route('/shutdown')
     def shutdown():

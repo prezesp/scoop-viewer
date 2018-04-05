@@ -3,6 +3,7 @@
 import logging
 import os
 import platform
+import re
 import yaml
 from flask import request
 from explorer import Explorer
@@ -11,8 +12,10 @@ from providers import ScoopProvider, ScoopMockProvider
 def expandvars(text):
     """ Standard expandvars extended by replacing macOS variables. """
     if platform.system() == "Darwin":
-        import re
         text = re.sub(r'\%(.*?)\%', lambda m: os.environ[m.group().replace('%', '')], text)
+    
+    workdir = os.path.dirname(os.path.realpath(__file__))
+    text = text.replace('%CD%', workdir)
     return os.path.expandvars(text)
 
 
@@ -34,9 +37,9 @@ def get_apps(provider, query):
 
     return apps
 
-def get_provider(config):
+def get_provider(app_config):
     """ Return provider for current configuration. """
-    if config['test']:
+    if app_config['test']:
         return ScoopMockProvider()
     return ScoopProvider()
 

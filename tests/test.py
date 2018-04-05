@@ -27,14 +27,13 @@ class TestBase(LiveServerTestCase):
             # Change the port that the liveserver listens on
             LIVESERVER_PORT=8943
         )
-        app.config['app_name'] = 'scoop-viewer'
-        app.config['test'] = True
 
         return app
 
     def setUp(self):
         """Setup the test driver and create test users"""
-        self.driver = webdriver.Firefox()#xecutable_path = './tests/geckodriver')
+        self.driver = webdriver.Firefox()
+        #self.driver = webdriver.Firefox(executable_path = './tests/geckodriver.exe')
         self.driver.get(self.get_server_url())
 
 

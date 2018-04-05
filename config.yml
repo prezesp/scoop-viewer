@@ -1,1 +1,1 @@
-SCOOP_BUCKET: '%PWD%/providers/mock/bucket'
+SCOOP_BUCKET: '%CD%/../providers/mock/bucket'
