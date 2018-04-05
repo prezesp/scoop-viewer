@@ -35,7 +35,7 @@ class Viewer(wx.Frame): # pylint: disable=too-many-ancestors
         self.Center()
 
         # start webapp
-        self.webapp = FlaskThread(create_app('app'))
+        self.webapp = FlaskThread(create_app('testing' if TEST else 'release'))
         self.webapp.start()
 
     # pylint: disable=W0613
@@ -63,7 +63,6 @@ class FlaskThread(Thread):
         Thread.__init__(self)
         self.application = application
         self.application.config['app_name'] = 'scoop-viewer'
-        self.application.config['test'] = TEST
 
     def __del__(self):
         pass

@@ -4,7 +4,6 @@ import logging
 import os
 import platform
 import re
-import yaml
 from flask import request
 from explorer import Explorer
 from providers import ScoopProvider, ScoopMockProvider
@@ -19,15 +18,11 @@ def expandvars(text):
     return os.path.expandvars(text)
 
 
-def get_apps(provider, query):
+def get_apps(provider, bucket_path, query):
     """ Get all apps from bucket. """
-
-    workdir = os.path.dirname(os.path.realpath(__file__))
-    with open(os.path.join(workdir, '..', 'config.yml')) as f:
-        config = yaml.load(f)
     ex = Explorer()
-    logging.info('Read bucket: %s', config['SCOOP_BUCKET'])
-    apps = ex.get_apps(expandvars(config['SCOOP_BUCKET']), query)
+    logging.info('Read bucket: %s', bucket_path)
+    apps = ex.get_apps(expandvars(bucket_path), query)
     logging.info("Apps count = %d", len(apps))
     installed = provider.get_installed()
 
@@ -39,7 +34,7 @@ def get_apps(provider, query):
 
 def get_provider(app_config):
     """ Return provider for current configuration. """
-    if app_config['test']:
+    if 'test' in app_config and app_config['test']:
         return ScoopMockProvider()
     return ScoopProvider()
 

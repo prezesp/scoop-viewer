@@ -2,6 +2,7 @@
 
 import os
 import sys
+import yaml
 from flask import Flask, render_template, request
 from providers import ScoopProvider, ScoopNotInstalled, ScoopMockProvider
 from webapp.utils import get_apps, shutdown_server, get_provider
@@ -12,12 +13,24 @@ def create_app(config_name):
     if getattr(sys, 'frozen', False):
         template_folder = os.path.join(sys.executable, '..', 'templates')
         static_folder = os.path.join(sys.executable, '..', 'static')
-        #template_folder = os.path.join(sys._MEIPASS, 'templates')
-        app = Flask(__name__, template_folder=template_folder, static_folder = static_folder)
+        app = Flask(__name__, template_folder=template_folder, static_folder=static_folder)
     else:
         app = Flask(__name__)
+    
+    # settings depending on config
     if config_name == 'testing':
         app.config['test'] = True
+        config_path = 'tests/config.yml'
+    else:
+        config_path = 'config.yml'
+        
+    # read config file
+    workdir = os.path.dirname(os.path.realpath(__file__))
+    with open(os.path.join(workdir, '..', config_path)) as f:
+        config = yaml.load(f)
+
+    app.config['bucket'] = config['SCOOP_BUCKET']
+
 
     @app.route('/shutdown')
     def shutdown():
@@ -31,7 +44,7 @@ def create_app(config_name):
         """ List all available app. """
         try:
             provider = get_provider(app.config)
-            return render_template('index.html', apps=get_apps(provider, None))
+            return render_template('index.html', apps=get_apps(provider, app.config['bucket'], None))
         except ScoopNotInstalled:
             return render_template('no-scoop.html')
 
@@ -41,7 +54,7 @@ def create_app(config_name):
         """ Search for an app. """
         provider = get_provider(app.config)
         query = request.args.get('q', default='*', type=str)
-        return render_template('index.html', apps=get_apps(provider, query), q=query)
+        return render_template('index.html', apps=get_apps(provider, app.config['bucket'], query), q=query)
 
 
     @app.route('/app/<app_name>/install')
