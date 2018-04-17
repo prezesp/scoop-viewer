@@ -1,9 +1,10 @@
 """ Server module with defined routes. """
 
+import json
 import os
 import sys
 import yaml
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, Response
 from providers import ScoopProvider, ScoopNotInstalled, ScoopMockProvider
 from webapp.utils import get_apps, shutdown_server, get_provider
 
@@ -43,11 +44,32 @@ def create_app(config_name):
     def index():
         """ List all available app. """
         try:
-            provider = get_provider(app.config)
-            return render_template('index.html', apps=get_apps(provider, app.config['bucket'], None))
+            #todo check scoop
+            #provider = get_provider(app.config)
+            return render_template('index.html') #, apps=get_apps(provider, app.config['bucket'], None))
         except ScoopNotInstalled:
             return render_template('no-scoop.html')
 
+    @app.route('/buckets/')
+    def buckets():
+        buckets = [
+            {
+                'name': 'Main bucket',
+                'url': 'main'
+            },
+            {
+                'name': 'scoop-viewer-bucket',
+                'url': 'scoop-viewer-bucket'
+            }
+        ]
+        return Response(json.dumps(buckets), mimetype='application/json')
+
+    @app.route('/bucket/<url>/')
+    def get_bucket(url):
+        provider = get_provider(app.config)
+        bucket = app.config['bucket'] if url == 'main' else '%USERPROFILE%\\scoop\\buckets\\'+url
+        apps = get_apps(provider, bucket, None)
+        return Response(json.dumps(apps), mimetype='application/json')
 
     @app.route('/search/')
     def search():
