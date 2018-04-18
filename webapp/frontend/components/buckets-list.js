@@ -8,12 +8,13 @@ class BucketsList extends Component {
         this.state = {
           buckets: []
         };
+        this.apiRoot = this.props.apiRoot;
 
         this.handleBucketChange = props.handleBucketChange;
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:5030/buckets`)
+        axios.get(this.apiRoot +`/buckets`)
             .then(res => {
                 const buckets = res.data;
                 this.setState({ buckets });
@@ -29,7 +30,7 @@ class BucketsList extends Component {
         const content = isFetched ? (
                 this.state.buckets.map((item, index) => (
                     <li key={index} className="nav-item">
-                        <a className="nav-link active" href="#" onClick={(e) => this.handleClick(e, item.url)}>{item.name}</a>
+                        <a className="nav-link active" href="#" onClick={(e) => this.handleClick(e, item.name)}>{item.name}</a>
                     </li>
 
                 ))

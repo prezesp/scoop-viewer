@@ -25,3 +25,14 @@ class Explorer():
                 apps.append(self.parse_json(os.path.join(directory, file)))
 
         return apps
+
+    def get_buckets(self, directory):
+        """ Get all scoop buckets. """
+        buckets = []
+        for file in os.listdir(directory):
+            if os.path.isdir(os.path.join(directory, file)):
+                buckets.append(file)
+        
+        return buckets
+
+

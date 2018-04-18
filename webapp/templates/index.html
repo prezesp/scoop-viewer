@@ -3,7 +3,6 @@
 		<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}">
         <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/ladda/ladda-themeless.min.css')}}">
 		<link rel="stylesheet" href="{{url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css')}}">
-		<script src="http://localhost:1337/vorlon.js"></script>
 	</head>
 	<body>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
@@ -30,7 +29,7 @@
 
 		<div style="height: 55px">
 		</div>
-        <div id="app"></div>
+        <div id="app" data-api-root={{ request.script_root|tojson|safe }}></div>
 		
         <script src="{{url_for('static', filename='js/bundle.js')}}"></script>
         <script type=text/javascript src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>

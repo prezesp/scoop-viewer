@@ -1,23 +1,20 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-
 class UninstallButton extends Component {
     constructor(props) {
         super(props);
         this.buttonRef = React.createRef();
         this.handleUninstallClick = this.handleUninstallClick.bind(this);
-        this.onUninstall = props.onUninstall;
+        this.onUninstall = this.props.onUninstall;
+        this.apiRoot = this.props.apiRoot;
     }
 
-    handleUninstallClick() {
-        console.log(this.buttonRef);
+    handleUninstallClick() {    
         var l = Ladda.create(this.buttonRef.current);
         l.start();
-        axios.get(`http://localhost:5030/app/${this.props.name}/uninstall`)
+        axios.get(this.apiRoot + `/app/${this.props.name}/uninstall`)
             .then(res => {
-                //parse result
-                //this.setState({ buckets });
                 l.stop();
                 this.onUninstall();
         });

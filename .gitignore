@@ -103,6 +103,7 @@ ENV/
 # webapp
 vendor/
 node_modules/
+webapp/static/js/bundle.js
 
 # visual studio code
 .vscode/

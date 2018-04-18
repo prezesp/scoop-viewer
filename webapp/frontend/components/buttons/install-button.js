@@ -6,18 +6,15 @@ class InstallButton extends Component {
         super(props);
         this.buttonRef = React.createRef();
         this.handleInstallClick = this.handleInstallClick.bind(this);
-        this.onInstall = props.onInstall;
+        this.onInstall = this.props.onInstall;
+        this.apiRoot = this.props.apiRoot;
     }
 
     handleInstallClick() {
-        console.log(this.buttonRef);
         var l = Ladda.create(this.buttonRef.current);
         l.start();
-        //todo aplikacja
-        axios.get(`http://localhost:5030/app/${this.props.name}/install`)
+        axios.get(this.apiRoot + `/app/${this.props.name}/install`)
             .then(res => {
-                //parse result
-                //this.setState({ buckets });
                 l.stop();
                 this.onInstall();
         });
