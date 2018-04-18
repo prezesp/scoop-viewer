@@ -7,6 +7,7 @@ from urllib.request import urlopen
 from flask_testing import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+import selenium.webdriver.support.ui as ui
 
 from webapp.routes import create_app
 
@@ -48,21 +49,28 @@ class TestBase(LiveServerTestCase):
 class SimpleTests(TestBase):
     def test_search(self):
         driver = self.driver
-        self.assertIn("Hello", driver.title)
-        elem = driver.find_element_by_name("q")
+        wait = ui.WebDriverWait(driver,10)
+
+        self.assertIn("Scoop", driver.title)
+        wait.until(lambda driver: "Loading" not in driver.page_source)
+        elem = driver.find_element_by_css_selector("#navbarSupportedContent > div > input")
         elem.clear()
         elem.send_keys("example-app-02")
         elem.send_keys(Keys.RETURN)
-        time.sleep(2)
+        wait.until(lambda driver: "Loading" not in driver.page_source)
         assert "example-app-01" not in driver.page_source
         assert "example-app-02" in driver.page_source
 
     def test_install(self):
         driver = self.driver
-        elem = driver.find_element_by_css_selector("body > div:nth-child(3) > div:nth-child(3) > div.col-sm-2.text-right > button")
+        wait = ui.WebDriverWait(driver,10)
+
+        wait.until(lambda driver: "Loading" not in driver.page_source)
+        elem = driver.find_element_by_css_selector("#app > div > div > div > div.col-sm-9 > div > div > div:nth-child(1) > div.col-sm-2.text-right > button")
         elem.click()
-        time.sleep(2)
+        wait.until(lambda driver: "Installed" in driver.page_source)
         assert "Installed" in driver.page_source
+    
 
 
 if __name__ == '__main__':
