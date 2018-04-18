@@ -1,124 +1,42 @@
-<!doctype html>
-<html lang="en">
-  <head>
-   <title>Hello World!</title>
-   <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}">
-   <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/ladda/ladda-themeless.min.css')}}">
-   <link rel="stylesheet" href="{{url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css')}}">
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-      <a class="navbar-brand" href="#">{{ config.app_name }}</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+<html>
+	<head>
+		<title>Scoop Viewer</title>
+		<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/ladda/ladda-themeless.min.css')}}">
+		<link rel="stylesheet" href="{{url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css')}}">
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+			<a class="navbar-brand" href="#">{{ config.app_name }}</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			  <span class="navbar-toggler-icon"></span>
+			</button>
+	  
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+				    <li class="nav-item active">
+				        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+				    </li>
+				    <li class="nav-item">
+				        <a class="nav-link" href="https://github.com/prezesp" target="_blank"><i class="fa fa-github" aria-hidden="true"></i> Website</a>
+				    </li>
+			    </ul>
+			    <form class="form-inline my-2 my-lg-0" action="/search">
+				    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q" value="{{ q }}">
+				    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+			    </form>
+			</div>
+		</nav>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="https://github.com/prezesp" target="_blank"><i class="fa fa-github" aria-hidden="true"></i> Website</a>
-          </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0" action="/search">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q" value="{{ q }}">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-      </div>
-    </nav>
-
-    <div style="height: 100px">
-    </div>
-
-    <div class="container">
-      {% for app in apps %}
-        <div class="row">
-          <div class="col-sm-10">
-            <h4> {{ app['name'] }} </h4>
-            <p> {{ app['description'] }} </p>
-            <p> <small>{{ app['homepage'] }} </small></p>
-          </div>
-          <div class="col-sm-2 text-right">
-            {% if app['installed'] == True %}
-              <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                <button type="button" class="btn btn-success btn-sm">Installed</button>
-
-                <div class="btn-group" role="group">
-                  <button id="btnGroupDrop{{app['name']}}" type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="sr-only">Toggle Dropdown</span>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop{{app['name']}}" style="font-size:.875rem;padding: 0">
-                    <a class="dropdown-item" data-app="{{ app['name'] }}">Uninstall</a>
-                  </div>
-                </div>
-              </div>
-              <!--button type="button" class="btn btn-primary btn-success btn-sm" data-app="{{ app['name'] }}">Uninstall</button-->
-            {% else %}
-              <button type="button" class="btn btn-primary btn-sm" data-app="{{ app['name'] }}"><i class="fa fa-download" aria-hidden="true"></i> Install</button>
-            {% endif %}
-          </div>
-        </div>
-        <hr/>
-      {% endfor %}
-    </div>
-
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-12 text-center">
-          <i class="fa fa-smile-o" aria-hidden="true"></i>
-        </div>
-      </div>
-    </div>
-
-    <script type=text/javascript src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
-    <script type=text/javascript src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script type=text/javascript src="{{ url_for('static', filename='vendor/ladda/spin.min.js') }}"></script>
-    <script type=text/javascript src="{{ url_for('static', filename='vendor/ladda/ladda.min.js') }}"></script>
-    <script type="text/javascript">
-      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-
-      $(function() {
-        var installAction = function() {
-          var $button = $(this);
-          if (!$button.hasClass('btn-success')) {
-            var app = $button.data('app');
-            var l = Ladda.create($button[0]);
-            l.start();
-            //alert(app);
-            $.ajax({
-              url: $SCRIPT_ROOT + '/app/' + app +'/install'
-            }).done(function() {
-              l.stop();
-              $button.addClass("btn-success").html("Installed");
-            });
-          }
-        };
-
-        var uninstallAction = function() {
-          var $button = $(this);
-          var app = $button.data('app');
-          $.ajax({
-            url: $SCRIPT_ROOT + '/app/' + app +'/uninstall'
-          }).done(function() {
-            var buttonGroup = $button.closest('.btn-group').parent();
-            var parent = buttonGroup.parent();
-            buttonGroup.remove();
-            $('<button/>', {
-              'class': 'btn btn-primary btn-sm',
-              'type': 'button',
-              'data-app': app,
-              'click': installAction,
-              'html': '<i class="fa fa-download" aria-hidden="true"></i> Install'
-            }).appendTo(parent);
-          });
-        };
-
-        $('button[data-app]').click(installAction);
-
-        $('a[data-app]').click(uninstallAction);
-       });
-    </script>
-  </body>
+		<div style="height: 55px">
+		</div>
+        <div id="app" data-api-root={{ request.script_root|tojson|safe }}></div>
+		
+        <script src="{{url_for('static', filename='js/bundle.js')}}"></script>
+        <script type=text/javascript src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+        <script type=text/javascript src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+        <script type=text/javascript src="{{ url_for('static', filename='vendor/ladda/spin.min.js') }}"></script>
+        <script type=text/javascript src="{{ url_for('static', filename='vendor/ladda/ladda.min.js') }}"></script>
+    
+	</body>
 </html>

@@ -1,1 +1,2 @@
 SCOOP_BUCKET: '%CD%/../providers/mock/bucket'
+EXTRA_BUCKETS: '%CD%/../providers/mock/extra'

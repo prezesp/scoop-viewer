@@ -8,6 +8,8 @@ from flask import request
 from explorer import Explorer
 from providers import ScoopProvider, ScoopMockProvider
 
+MAIN_BUCKET = "Main-bucket"
+
 def expandvars(text):
     """ Standard expandvars extended by replacing macOS variables. """
     if platform.system() == "Darwin":
@@ -31,6 +33,15 @@ def get_apps(provider, bucket_path, query):
         app['installed'] = app['name'] in installed
 
     return apps
+
+def get_buckets(path):
+    """ Get all buckets. """
+    ex = Explorer()
+    buckets = [{ 'name': MAIN_BUCKET }]
+    for bucket in ex.get_buckets(expandvars(path)):
+        buckets.append({ 'name': bucket })
+
+    return buckets
 
 def get_provider(app_config):
     """ Return provider for current configuration. """

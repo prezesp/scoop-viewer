@@ -1,1 +1,2 @@
 SCOOP_BUCKET: '%USERPROFILE%\scoop\apps\scoop\current\bucket'
+EXTRA_BUCKETS: '%USERPROFILE%\scoop\buckets'
