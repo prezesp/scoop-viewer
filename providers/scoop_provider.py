@@ -10,6 +10,9 @@ class ScoopProvider:
     """ Module to interact with scoop. """
 
     def __init__(self):
+        pass
+        
+    def get_version(self):
         process = Popen(['powershell.exe', 'scoop', '--version'],
                         stdin=PIPE, stdout=PIPE, stderr=PIPE)
         stdout, stderr = process.communicate()

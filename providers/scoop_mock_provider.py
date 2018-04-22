@@ -9,6 +9,9 @@ class ScoopMockProvider:
     def __init__(self):
         self.version = 'unknown'
 
+    def get_version(self):
+        pass
+
     def get_installed(self): # pylint: disable=R0201
         """ Get all installed app from scoop. """
         workdir = os.path.dirname(os.path.realpath(__file__))

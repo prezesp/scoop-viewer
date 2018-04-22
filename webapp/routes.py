@@ -45,8 +45,9 @@ def create_app(config_name):
     def index():
         """ List all available app. """
         try:
-            #todo check scoop
-            #provider = get_provider(app.config)
+            # check scoop only on index
+            provider = get_provider(app.config)
+            provider.get_version()
             return render_template('index.html')
         except ScoopNotInstalled:
             return render_template('no-scoop.html')
