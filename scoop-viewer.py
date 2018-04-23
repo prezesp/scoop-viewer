@@ -34,6 +34,8 @@ class Viewer(wx.Frame): # pylint: disable=too-many-ancestors
         self.Bind(wx.EVT_CLOSE, self.on_exit)
         self.Center()
 
+        self.SetMinSize((600,300))
+
         # start webapp
         self.webapp = FlaskThread(create_app('testing' if TEST else 'release'))
         self.webapp.start()
