@@ -25,7 +25,7 @@ class Viewer(wx.Frame): # pylint: disable=too-many-ancestors
 
         sizer = wx.BoxSizer(wx.VERTICAL)
         self.browser = wx.html2.WebView.New(self)
-        self.browser.EnableContextMenu(False)
+        self.browser.EnableContextMenu(True)
         self.browser.Bind(wx.html2.EVT_WEBVIEW_NEWWINDOW, Viewer.handle_new_window)
 
         sizer.Add(self.browser, 1, wx.EXPAND, 10)
@@ -33,6 +33,8 @@ class Viewer(wx.Frame): # pylint: disable=too-many-ancestors
         self.SetSize((1024, 700))
         self.Bind(wx.EVT_CLOSE, self.on_exit)
         self.Center()
+
+        self.SetMinSize((600,300))
 
         # start webapp
         self.webapp = FlaskThread(create_app('testing' if TEST else 'release'))
