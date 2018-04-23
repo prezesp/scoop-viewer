@@ -29,7 +29,8 @@ class SearchBox extends Component {
                     type="search" 
                     placeholder="Search" 
                     aria-label="Search" 
-                    name="q" 
+                    name="q"
+                    id="searchBox" 
                     value={this.state.query} 
                     onChange={event => this.setState({query: event.target.value})}
                     onKeyPress={this.handleKeyPress}/>

@@ -4,7 +4,6 @@ body {
     padding-top: 50px;
 }
 
-
 /*
  * Sidebar
  */
@@ -44,6 +43,7 @@ body {
     font-weight: 500;
 }
 
+/* Components */
 .header {
     background-color: #171814 !important;
     margin-left: -15px;
@@ -58,33 +58,19 @@ body {
     }
 }
 
-.header-title {
-    color: #fff !important;
+.header-tab
+{
     background: rgb(39, 40, 34);
+    border-radius: 0px 30px 0px 0px;
+    color: #fff !important;
     font-weight: 500;
     margin: -15px;
-    padding: 20px;
-}
-
-.btn-primary {
-    background-color: rgb(88, 194, 229);
-    border-color: rgb(88, 194, 229);
-    color: #000;
-}
-.btn-success {
-    background-color: rgb(116, 170, 4);
-    border-color: rgb(116, 170, 4);
-    color: #000;
-}
-
-.tab
-{
-    border-radius: 0px 30px 0px 0px;
-    position: relative;
     margin-right:40px;
+    padding: 20px;
+    position: relative;
 }
 
-.tab-arrow
+.header-tab-arrow
 {
   border-color: transparent transparent rgb(39, 40, 34) rgb(39, 40, 34);
   border-style: solid;
@@ -96,7 +82,33 @@ body {
   right:-23px;
 }
 
-.nav-link {
+main h4, main p {
+    font-family: 'Consolas' !important;
+}
+
+
+.search-box {
+    border-radius: 0;
+    padding: 0.2rem .75rem;
+    font-family: Consolas;
+}
+
+
+/* Bootstrap override */
+
+.btn-primary {
+    background-color: rgb(88, 194, 229);
+    border-color: rgb(88, 194, 229);
+    color: #000;
+}
+
+.btn-success {
+    background-color: rgb(116, 170, 4);
+    border-color: rgb(116, 170, 4);
+    color: #000;
+}
+
+nav .nav-link {
     padding: .5rem .5rem;
 }
 
@@ -107,14 +119,4 @@ nav.navbar-light .navbar-nav .nav-link {
 
 nav.navbar-light .navbar-nav .nav-link:hover {
     color: #fff;
-}
-
-.bucket-content h4, .bucket-content p {
-    font-family: 'Consolas' !important;
-}
-
-.search-box {
-    border-radius: 0;
-    padding: 0.2rem .75rem;
-    font-family: Consolas;
 }

@@ -8,12 +8,40 @@
 	</head>
 	<body>
         <div id="app" data-api-root={{ request.script_root|tojson|safe }}></div>
-		
+
         <script src="{{url_for('static', filename='js/bundle.js')}}"></script>
         <script type=text/javascript src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
         <script type=text/javascript src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         <script type=text/javascript src="{{ url_for('static', filename='vendor/ladda/spin.min.js') }}"></script>
-        <script type=text/javascript src="{{ url_for('static', filename='vendor/ladda/ladda.min.js') }}"></script>
-    
+		<script type=text/javascript src="{{ url_for('static', filename='vendor/ladda/ladda.min.js') }}"></script>
+
+        <script>
+			var isCtrl = false;
+			var isShift = false;
+			$(document).ready(function() {
+				// action on key up
+				$(document).keyup(function(e) {
+					if(e.which == 17) {
+						isCtrl = false;
+					}
+					if(e.which == 16) {
+						isShift = false;
+					}
+				});
+				// action on key down
+				$(document).keydown(function(e) {
+					if(e.which == 17) {
+						isCtrl = true; 
+					}
+					if(e.which == 16) {
+						isShift = true; 
+					}
+					if(e.which == 80 && isShift) { 
+						document.getElementById("searchBox").focus();
+						return false;
+					} 
+				});
+			});
+        </script>
 	</body>
 </html>

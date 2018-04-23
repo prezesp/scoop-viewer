@@ -7,7 +7,7 @@ const BucketContent = (props) => {
         return (<BucketContentItem key={item.name} {...item} apiRoot={props.apiRoot}/>)
     });
     return (
-        <div className="bucket-content">
+        <div>
             {content}
         </div>
     )

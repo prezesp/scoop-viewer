@@ -1,13 +1,12 @@
 import React from 'react';
 import SearchBox from './search-box';
 
-const Menu = (props) => {
-	//fixed-top
+const Header = (props) => {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light header">
-			<a className="navbar-brand header-title tab" href="#">
+			<a className="navbar-brand header-tab" href="#">
 				scoop-viewer
-				<div class="tab-arrow"/>
+				<div class="header-tab-arrow"/>
 			</a>
 			<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			  <span className="navbar-toggler-icon"></span>
@@ -25,4 +24,4 @@ const Menu = (props) => {
     );
 }
 
-export default Menu;
+export default Header;

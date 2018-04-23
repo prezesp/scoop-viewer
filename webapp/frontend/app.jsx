@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import BucketsList from './components/buckets-list';
 import BucketContainer from './components/bucket-container';
-import Menu from './components/menu';
+import Header from './components/header';
 
 class App extends React.Component {
     constructor(props) {
@@ -26,7 +26,6 @@ class App extends React.Component {
         this.setState({query: newQuery});
     }
 
-    //<div className="col-sm-3 bucket-list" style={{'paddingTop': '20px', 'minHeight': '100%'}}>
     render() {
         return (
             <div>
@@ -36,7 +35,7 @@ class App extends React.Component {
                             <BucketsList handleBucketChange={this.handleBucketChange} apiRoot={this.apiRoot}/>
                         </nav>
                         <main className="col-sm-9 offset-sm-3 pt-3">
-                            <Menu onSearch={this.handleSearch}/>
+                            <Header onSearch={this.handleSearch}/>
                             <BucketContainer name={this.state.currentBucket} query={this.state.query} apiRoot={this.apiRoot}/>
                         </main>
                     </div>
