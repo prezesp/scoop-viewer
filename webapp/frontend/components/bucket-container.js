@@ -73,13 +73,13 @@ class BucketContainer extends Component {
         const content = !this.state.pending ? (
                 <BucketContent items={this.state.items} apiRoot={this.apiRoot} />
             ) : (
-                <div className="text-center">
+                <div className="text-center" style={{paddingTop:"40px"}}>
                     <p><i className="fa fa-cog fa-spin" style={{fontSize:'32px'}}></i></p>
                     <p>Loading...</p>
                 </div>
             )
         return (
-            <div style={{paddingTop:"25px"}}>
+            <div style={{paddingTop:"5px"}}>
                 {content}
             </div>
         )

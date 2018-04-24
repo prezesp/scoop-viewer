@@ -31,10 +31,10 @@ class App extends React.Component {
             <div>
                 <div className="container-fluid">
                     <div className="row">
-                        <nav className="col-sm-3 hidden-xs-down bg-faded sidebar">
+                        <nav className="col-md-3 hidden-xs-down bg-faded sidebar">
                             <BucketsList handleBucketChange={this.handleBucketChange} apiRoot={this.apiRoot}/>
                         </nav>
-                        <main className="col-sm-9 offset-sm-3 pt-3">
+                        <main className="col-md-9 offset-md-3 pt-2">
                             <Header onSearch={this.handleSearch}/>
                             <BucketContainer name={this.state.currentBucket} query={this.state.query} apiRoot={this.apiRoot}/>
                         </main>
