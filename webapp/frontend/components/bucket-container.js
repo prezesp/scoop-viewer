@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import BucketContent from './bucket-content'
 
+const CancelToken = axios.CancelToken;
 
 class BucketContainer extends Component {
     constructor(props) {
@@ -16,38 +17,58 @@ class BucketContainer extends Component {
         this.apiRoot = this.props.apiRoot;
     }
 
-    componentDidMount() {
+    _loadData() {
         let url = this.apiRoot + (this.state.query.length > 0 ? `/search/${this.state.query}` : `/bucket/${this.state.name}`);
-        axios.get(url)
-            .then(res => {
+        axios.get(url, {
+            cancelToken: new CancelToken((c) => {
+                this.cancel = c;
+              })
+        }).then(res => {
                 const items = res.data;
                 this.setState({ items, pending:false });
+                this.cancel = undefined;
         });
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.name !== this.props.name) {
-            this.setState({name:nextProps.name, pending: true});
+    componentDidMount() {
+        console.log("--> componentDidMount");
+        this._loadData();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        console.log("--> componentDidUpdate");
+        if (!prevState.pending && (prevState.name !== this.state.name || prevState.query !== this.state.query)) {
+            console.log("$   componentDidUpdate - loadData", prevProps)
+            console.log("$                                ", prevState)
+            console.log("$                                ", this.state)
+            this._loadData();
         }
-        if (nextProps.query !== this.props.query) {
-            this.setState({query:nextProps.query, pending: true});
+        else if (prevState.pending && (prevState.name !== this.state.name || prevState.query !== this.state.query)) {
+            if (this.cancel) {
+                console.log("cancelling");
+                this.cancel();
+                this._loadData();
+            }
         }
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return nextProps.name !== this.props.name || nextProps.query !== this.props.query || nextState.items.length !== this.state.items.length;
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.query !== prevState.query || nextProps.name !== prevState.name ) {
+            
+            console.log("--> Change:", nextProps.query, prevState.query, "\n", nextProps.name, prevState.name);
+            return {
+                items: [],
+                query: nextProps.query,
+                name: nextProps.name,
+                pending: true,
+            };
+        }
+
+        console.log("$   No state update necessary")
+        // No state update necessary
+        return null;
     }
-
-
-    componentDidUpdate() {
-        let url = this.apiRoot + (this.state.query.length > 0 ? `/search/${this.state.query}` : `/bucket/${this.state.name}`);
-        axios.get(url)
-            .then(res => {
-                const items = res.data;
-                this.setState({ items, pending: false });
-        });
-    }
-
+    
     render() {
         const content = !this.state.pending ? (
                 <BucketContent items={this.state.items} apiRoot={this.apiRoot} />
