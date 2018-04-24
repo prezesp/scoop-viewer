@@ -86,6 +86,25 @@ main h4, main p {
     font-family: 'Consolas' !important;
 }
 
+main div.row {
+    border: 0;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    padding-bottom: 0.2rem;
+    padding-top: 1.2rem;
+}
+
+main div.row:hover {
+    background-color: rgb(62, 61, 50)
+}
+
+main div.row a {
+    color: #fff;
+}
+
+main div.row a:hover {
+    color: rgb(202, 202, 202);
+}
+
 
 .search-box {
     border-radius: 0;

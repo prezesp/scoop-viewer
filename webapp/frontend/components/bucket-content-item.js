@@ -26,13 +26,10 @@ class BucketContentItem extends Component {
                 <div className="col-sm-10">
                     <h4>{ this.state.name }</h4>
                     <p>{ this.state.description }</p>
-                    <p><small>{ this.state.website} </small></p>
+                    <p><small><a href={this.state.homepage} target="_blank">{this.state.homepage}</a></small></p>
                 </div>
                 <div className="col-sm-2 text-right">
                     { this.state.installed ? (<UninstallButton onUninstall={this.onUninstall} name={this.state.name} apiRoot={this.apiRoot}/>) : (<InstallButton onInstall={this.onInstall} name={this.state.name} apiRoot={this.apiRoot}/>) }
-                </div>
-                <div className="col-sm-12">
-                    <hr/>
                 </div>
             </div>
         )

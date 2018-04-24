@@ -18,18 +18,18 @@
         <script>
 			var isCtrl = false;
 			var isShift = false;
-			$(document).ready(function() {
+			document.addEventListener("DOMContentLoaded", function(event) { 
 				// action on key up
-				$(document).keyup(function(e) {
+				document.onkeyup = function(e) {
 					if(e.which == 17) {
 						isCtrl = false;
 					}
 					if(e.which == 16) {
 						isShift = false;
 					}
-				});
+				};
 				// action on key down
-				$(document).keydown(function(e) {
+				document.onkeydown = function(e) {
 					if(e.which == 17) {
 						isCtrl = true; 
 					}
@@ -40,7 +40,7 @@
 						document.getElementById("searchBox").focus();
 						return false;
 					} 
-				});
+				};
 			});
         </script>
 	</body>
