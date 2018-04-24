@@ -10,8 +10,6 @@
         <div id="app" data-api-root={{ request.script_root|tojson|safe }}></div>
 
         <script src="{{url_for('static', filename='js/bundle.js')}}"></script>
-        <script type=text/javascript src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
-        <script type=text/javascript src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         <script type=text/javascript src="{{ url_for('static', filename='vendor/ladda/spin.min.js') }}"></script>
 		<script type=text/javascript src="{{ url_for('static', filename='vendor/ladda/ladda.min.js') }}"></script>
 

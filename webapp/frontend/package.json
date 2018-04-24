@@ -22,7 +22,6 @@
     "font-awesome": "^4.7.0",
     "gulp": "^3.9.1",
     "gulp-util": "^3.0.8",
-    "jquery": "^3.2.1",
     "ladda": "^1.0.6",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",

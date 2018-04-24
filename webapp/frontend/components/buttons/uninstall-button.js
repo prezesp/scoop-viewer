@@ -6,8 +6,13 @@ class UninstallButton extends Component {
         super(props);
         this.buttonRef = React.createRef();
         this.handleUninstallClick = this.handleUninstallClick.bind(this);
+        this.show = this.show.bind(this);
+        this.hide = this.hide.bind(this);
         this.onUninstall = this.props.onUninstall;
         this.apiRoot = this.props.apiRoot;
+        this.state = {
+            showDropdown: false
+        }
     }
 
     handleUninstallClick() {    
@@ -18,6 +23,16 @@ class UninstallButton extends Component {
                 l.stop();
                 this.onUninstall();
         });
+    }
+
+    show() {
+        this.setState({ showDropdown: true})
+        document.addEventListener("click", this.hide);
+    }
+
+    hide() {
+        this.setState({ showDropdown: false})
+        document.removeEventListener("click", this.hide);
     }
 
     render() {
@@ -32,18 +47,21 @@ class UninstallButton extends Component {
                         className="btn btn-success dropdown-toggle dropdown-toggle-split btn-sm" 
                         data-toggle="dropdown" 
                         aria-haspopup="true" 
-                        aria-expanded="false">
+                        aria-expanded="false"
+                        onClick={this.show}>
                         <span className="sr-only">Toggle Dropdown</span>
                     </button>
-                    <div 
-                        className="dropdown-menu dropdown-menu-right" 
-                        aria-labelledby="btnGroupDrop{{app['name']}}" 
-                        style={{fontSize: '.875rem', padding: 0}}>
-                        <a 
-                            className="dropdown-item" 
-                            data-app="{{ app['name'] }}"
-                            onClick={this.handleUninstallClick}>Uninstall</a>
-                    </div>
+                    {this.state.showDropdown ?
+                        <div 
+                            className="dropdown-menu dropdown-menu-right" 
+                            aria-labelledby="btnGroupDrop{{app['name']}}" 
+                            style={{fontSize: '.875rem', padding: 0, display: 'block'}}>
+                            <a 
+                                className="dropdown-item" 
+                                data-app="{{ app['name'] }}"
+                                onClick={this.handleUninstallClick}>Uninstall</a>
+                        </div> :
+                        null}
                 </div>
             </div>
         )

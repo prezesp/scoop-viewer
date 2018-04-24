@@ -5,9 +5,6 @@ var webpack = require('webpack-stream');
 var webpack2 = require('webpack');
 
 gulp.task('copy', function() {
-    gulp.src(['node_modules/jquery/dist/jquery.js', 'node_modules/jquery/dist/jquery.min.js'])
-    .pipe(gulp.dest('../static/vendor/jquery'));
-
     gulp.src([
       'node_modules/bootstrap/dist/**/*',
       '!**/npm.js',
