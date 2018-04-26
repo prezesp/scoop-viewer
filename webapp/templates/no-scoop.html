@@ -3,21 +3,21 @@
   <head>
    <title>Hello World!</title>
    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}">
-   <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/ladda/ladda-themeless.min.css')}}">
    <link rel="stylesheet" href="{{url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css')}}">
+   <link rel="stylesheet" href="{{url_for('static', filename='custom.css')}}">
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-      <a class="navbar-brand" href="#">{{ config.app_name }}</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light header" style="margin: 0; width: 100%">
+      <a class="navbar-brand header-tab" href="#">
+        {{ config.app_name }}
+        <div class="header-tab-arrow"></div>
+      </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-          </li>
           <li class="nav-item">
             <a class="nav-link" href="https://github.com/prezesp" target="_blank"><i class="fa fa-github" aria-hidden="true"></i> Website</a>
           </li>

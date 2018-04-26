@@ -30,7 +30,10 @@ class BucketsList extends Component {
         const content = isFetched ? (
                 this.state.buckets.map((item, index) => (
                     <li key={index} className="nav-item">
-                        <a className="nav-link active" href="#" onClick={(e) => this.handleClick(e, item.name)}><i className="fa fa-caret-right" style={{color: "#cacaca", paddingRight: "5px"}}></i> {item.name}</a>
+                        <a className="nav-link active" href="#" onClick={(e) => this.handleClick(e, item.name)}>
+                            <i className="fa fa-angle-right" style={{color: "#cacaca", paddingRight: "8px"}}></i>
+                            {item.name}
+                        </a>
                     </li>
 
                 ))

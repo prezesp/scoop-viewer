@@ -9,10 +9,10 @@ class BucketContainer extends Component {
         super(props);
 
         this.state = {
-          items: [],
-          name: props.name,
-          query: props.query,
-          pending: true
+            items: [],
+            name: props.name,
+            query: props.query,
+            pending: true
         };
         this.apiRoot = this.props.apiRoot;
     }
@@ -24,9 +24,9 @@ class BucketContainer extends Component {
                 this.cancel = c;
               })
         }).then(res => {
-                const items = res.data;
-                this.setState({ items, pending:false });
-                this.cancel = undefined;
+            const items = res.data;
+            this.setState({ items, pending: false });
+            this.cancel = null;
         });
     }
 

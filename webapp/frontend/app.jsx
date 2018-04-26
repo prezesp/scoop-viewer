@@ -18,7 +18,6 @@ class App extends React.Component {
     }
 
     handleBucketChange(bucket) {
-        //console.log(bucket);
         this.setState({query:'', currentBucket: bucket});
     }
 
