@@ -7,7 +7,6 @@ scoop-viewer
 
 A gui client for [scoop](http://scoop.sh) - _a command-line installer for Windows_.
 
-
 Installation
 -
 ```
@@ -26,4 +25,6 @@ or
 $ scoopviewer
 ```
 
-
+How it looks
+-
+![screen](https://user-images.githubusercontent.com/20465770/39327352-15eadc52-4998-11e8-954d-52940e09a2d7.png)
