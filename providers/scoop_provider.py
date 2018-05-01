@@ -13,16 +13,25 @@ class ScoopProvider:
         pass
         
     def get_version(self):
-        process = Popen(['powershell.exe', 'scoop', '--version'],
+        process = Popen(['powershell.exe', 'scoop', '--help'],
                         stdin=PIPE, stdout=PIPE, stderr=PIPE)
+        # cannot depend on scoop --version (works only when scoop is a git repository)
         stdout, stderr = process.communicate()
         stdout = stdout.decode("utf-8")
         stderr = stderr.decode("utf-8")
         if stderr:
             raise ScoopNotInstalled('Scoop is not installed')
         try:
-            self.version = stdout.split('\n')[1].split(' ')[0]
+            process = Popen(['powershell.exe', 'scoop', '--version'],
+                            stdin=PIPE, stdout=PIPE, stderr=PIPE)
+            stdout, stderr = process.communicate()
+            stdout = stdout.decode("utf-8")
+            if not stderr:
+                self.version = stdout.split('\n')[1].split(' ')[0]
         except IndexError:
+            pass
+
+        if not hasattr(self, "version"):
             logging.warning('Cannot read scoop version')
             self.version = 'unknown'
 
