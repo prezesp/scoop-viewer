@@ -29,9 +29,10 @@ class Explorer():
     def get_buckets(self, directory):
         """ Get all scoop buckets. """
         buckets = []
-        for file in os.listdir(directory):
-            if os.path.isdir(os.path.join(directory, file)):
-                buckets.append(file)
+        if os.path.exists(directory):
+            for file in os.listdir(directory):
+                if os.path.isdir(os.path.join(directory, file)):
+                    buckets.append(file)
         
         return buckets
 

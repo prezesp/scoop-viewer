@@ -1,2 +1,2 @@
-SCOOP_BUCKET: '%USERPROFILE%\scoop\apps\scoop\current\bucket'
-EXTRA_BUCKETS: '%USERPROFILE%\scoop\buckets'
+SCOOP_BUCKET: '%SCOOP%\apps\scoop\current\bucket'
+EXTRA_BUCKETS: '%SCOOP%\buckets'
