@@ -12,11 +12,17 @@ MAIN_BUCKET = "Main-bucket"
 
 def expandvars(text):
     """ Standard expandvars extended by replacing macOS variables. """
+    special_vars_mapping = {
+        '%CD%': lambda: os.path.dirname(os.path.realpath(__file__)),
+        '%SCOOP%': lambda: '%USERPROFILE%\scoop' if 'SCOOP' not in os.environ else '%SCOOP%'
+    }
+
     if platform.system() == "Darwin":
         text = re.sub(r'\%(.*?)\%', lambda m: os.environ[m.group().replace('%', '')], text)
     
-    workdir = os.path.dirname(os.path.realpath(__file__))
-    text = text.replace('%CD%', workdir)
+    pattern = re.compile('|'.join(special_vars_mapping.keys()))
+    text = pattern.sub(lambda x: special_vars_mapping[x.group()](), text)
+
     return os.path.expandvars(text)
 
 
