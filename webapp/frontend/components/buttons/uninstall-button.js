@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 class UninstallButton extends Component {
     constructor(props) {
@@ -8,8 +7,7 @@ class UninstallButton extends Component {
         this.handleUninstallClick = this.handleUninstallClick.bind(this);
         this.show = this.show.bind(this);
         this.hide = this.hide.bind(this);
-        this.onUninstall = this.props.onUninstall;
-        this.apiRoot = this.props.apiRoot;
+        this.onClick = this.props.onClick;
         this.state = {
             showDropdown: false
         }
@@ -18,11 +16,7 @@ class UninstallButton extends Component {
     handleUninstallClick() {    
         var l = Ladda.create(this.buttonRef.current);
         l.start();
-        axios.get(this.apiRoot + `/app/${this.props.name}/uninstall`)
-            .then(res => {
-                l.stop();
-                this.onUninstall();
-        });
+        this.onClick();
     }
 
     show() {

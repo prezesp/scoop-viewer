@@ -4,7 +4,8 @@ import json
 import os
 import sys
 import yaml
-from flask import Flask, render_template, request, Response
+from flask import Flask, render_template, request, Response, jsonify
+from flask_executor import Executor
 from providers import ScoopProvider, ScoopNotInstalled, ScoopMockProvider
 from webapp.utils import get_apps, shutdown_server, get_provider, get_buckets, MAIN_BUCKET
 
@@ -17,6 +18,13 @@ def create_app(config_name):
         app = Flask(__name__, template_folder=template_folder, static_folder=static_folder)
     else:
         app = Flask(__name__)
+
+    app.config['EXECUTOR_TYPE'] = 'thread'
+
+    app.current_task = None
+    app.current_task_size_wrapper = [None]
+
+    executor = Executor(app)
     
     # settings depending on config
     if config_name == 'testing':
@@ -88,10 +96,22 @@ def create_app(config_name):
     @app.route('/app/<app_name>/install')
     def install(app_name):
         """ Install app. """
-        provider = get_provider(app.config)
-        provider.install(app_name)
+        
+        provider = get_provider(app.config)        
+        app.current_task = executor.submit(provider.install, app_name, app.current_task_size_wrapper)
         return "OK"
 
+    @app.route('/app/<app_name>/get_status')
+    def get_result(app_name):
+        
+        if app.current_task != None:
+            if app.current_task.running():
+                size = app.current_task_size_wrapper[0]
+                if size != None:
+                    return jsonify({'status': 'running', 'size_in_mb': size})
+                return jsonify({'status': 'running'})
+
+        return jsonify({'status': 'done' }); 
 
     @app.route('/app/<app_name>/uninstall')
     def uninstall(app_name):

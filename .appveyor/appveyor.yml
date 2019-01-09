@@ -6,6 +6,7 @@ environment:
 
 install:
   - "%PYTHON%\\python.exe -m pip install -r requirements.txt"
+  - "rmdir %PYTHON%\\Lib\\site-packages\\tests /s /q"
   - ps: Install-Product node $env:nodejs_version
   - npm install -g gulp
   - "cd webapp\\frontend && npm install && gulp"
