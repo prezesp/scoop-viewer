@@ -1,23 +1,17 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 class InstallButton extends Component {
     constructor(props) {
         super(props);
         this.buttonRef = React.createRef();
         this.handleInstallClick = this.handleInstallClick.bind(this);
-        this.onInstall = this.props.onInstall;
-        this.apiRoot = this.props.apiRoot;
+        this.onClick = this.props.onClick;
     }
 
     handleInstallClick() {
-        var l = Ladda.create(this.buttonRef.current);
-        l.start();
-        axios.get(this.apiRoot + `/app/${this.props.name}/install`)
-            .then(res => {
-                l.stop();
-                this.onInstall();
-        });
+        this.onClick();
+        let ladda = Ladda.create(this.buttonRef.current);
+        ladda.start();
     }
 
     render() {

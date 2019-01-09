@@ -22,7 +22,7 @@ class ScoopMockProvider:
 
         return [a.strip().split(' ')[0] for a in stdout.split('\n')]
 
-    def install(self, app): # pylint: disable=R0201
+    def install(self, app, file_size_wrapper): # pylint: disable=R0201
         """ Install app through scoop. """
         workdir = os.path.dirname(os.path.realpath(__file__))
         

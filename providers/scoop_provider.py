@@ -1,6 +1,9 @@
 """ Module to interact with scoop. """
 from subprocess import Popen, PIPE
 import logging
+import re
+import sys
+import time
 
 class ScoopNotInstalled(Exception):
     """ Exception thrown when scoop was not detected. """
@@ -8,6 +11,7 @@ class ScoopNotInstalled(Exception):
 
 class ScoopProvider:
     """ Module to interact with scoop. """
+    units = {"B": 1, "KB": 10**3, "MB": 10**6, "GB": 10**9, "TB": 10**12}
 
     def __init__(self):
         pass
@@ -45,12 +49,34 @@ class ScoopProvider:
         #print (type(stdout))
         return [a.strip().split(' ')[0] for a in stdout.split('\n')]
 
-    def install(self, app): # pylint: disable=R0201
+    def __exec_cmd(self, cmd):
+        process = Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+
+        for stdout_line in iter(process.stdout.readline, ""):
+            yield stdout_line
+        process.stdout.close()
+        return_code = process.wait()
+        # if return_code:
+        #     raise subprocess.CalledProcessError(return_code, cmd)
+
+    def __parse_size(self, line):
+        """ Converts numeric value included in line to megabytes. """
+
+        prog = re.compile('\(([0-9]+[.,][0-9]*) ([A-Z]+)')
+        match = prog.search(line)
+        number, unit = match.group(1), match.group(2).upper()
+        if unit == 'MB':
+            return number
+        return int(float(number) * units[unit]) * units['MB']
+
+    def install(self, app, file_size_wrapper): # pylint: disable=R0201
         """ Install app through scoop. """
 
-        process = Popen(['powershell.exe', 'scoop', 'install', app],
-                        stdin=PIPE, stdout=PIPE, stderr=PIPE)
-        _, _ = process.communicate()
+        for line in self.__exec_cmd(['powershell.exe', 'scoop', 'install', app]):
+            if line.startswith("Downloading"):
+                file_size_wrapper[0] = self.__parse_size(line)
+        file_size_wrapper[0] = None
+
 
     def uninstall(self, app): # pylint: disable=R0201
         """ Uninstal app. """
