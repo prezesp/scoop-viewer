@@ -44,11 +44,11 @@ gulp.task('webpack', function() {
                 exclude: /node_modules/,
                 query: {
                     presets: ['es2015', 'react'],
-                    plugins: ["transform-object-rest-spread", "transform-class-properties"]
+                    plugins: ['transform-object-rest-spread', 'transform-class-properties']
                 }
             }, { 
                 test: /\.css$/, 
-                loader: "style-loader!css-loader" 
+                loader: 'style-loader!css-loader' 
             }]
         },
         optimization: {
@@ -56,7 +56,7 @@ gulp.task('webpack', function() {
         },
         plugins: [
             new webpack2.DefinePlugin({
-                'process.env': { 'NODE_ENV': "'production'" }
+                'process.env': { 'NODE_ENV': '\'production\'' }
             }),
             new webpack2.ProvidePlugin({
                 Promise: 'es6-promise-promise', // works as expected

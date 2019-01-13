@@ -30,7 +30,7 @@ class ItemLogic {
             headers: { Pragma: 'no-cache'}
         }).then(() => {
             this.fileSize = null;
-            this.timer = setInterval(()=> this.pollInstallStatus(), config.POLLING_INTERVAL);
+            this.timer = setInterval(() => this.pollInstallStatus(), config.POLLING_INTERVAL);
         });
     }
 
@@ -53,11 +53,11 @@ class ItemLogic {
     pollInstallStatus() {
         axios.get(this.apiRoot + `/app/${this.appName}/get_status`, {
             headers: { Pragma: 'no-cache'}
-        }).then(res => {
+        }).then((res) => {
             if (this.fileSize == null && res.data.size_in_mb ) {
                 this.fileSize =  Math.ceil(parseFloat(res.data.size_in_mb));
                 this.fileSizeLeft = this.fileSize;
-                this.timer2 = setInterval(()=> this.progress(), config.PROGRESS_INTERVAL);                    
+                this.timer2 = setInterval(() => this.progress(), config.PROGRESS_INTERVAL);                    
             }
             if (res.data.status === 'done') {
                 this.fileSizeLeft = 0;

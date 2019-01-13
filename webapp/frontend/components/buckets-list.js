@@ -32,7 +32,7 @@ class BucketsList extends Component {
             this.state.buckets.map((item, index) => (
                 <li key={index} className="nav-item">
                     <a className="nav-link active" href="#" onClick={(e) => this.handleClick(e, item.name)}>
-                        <i className="fa fa-angle-right" style={{color: "#cacaca", paddingRight: "8px"}}></i>
+                        <i className="fa fa-angle-right" style={{color: '#cacaca', paddingRight: '8px'}}></i>
                         {item.name}
                     </a>
                 </li>
