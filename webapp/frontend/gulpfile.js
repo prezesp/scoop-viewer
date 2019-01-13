@@ -32,7 +32,7 @@ gulp.task('copy', function() {
 
 gulp.task('webpack', function() {
     return gulp.src('./app.jsx').pipe(webpack({
-        watch: true,
+        //watch: true,
         output: {
             path: __dirname,
             filename: 'static/js/bundle.js'
