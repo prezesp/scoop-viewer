@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class InstallButton extends Component {
     constructor(props) {
@@ -10,7 +11,7 @@ class InstallButton extends Component {
 
     handleInstallClick() {
         this.onClick();
-        let ladda = Ladda.create(this.buttonRef.current);
+        let ladda = window.Ladda.create(this.buttonRef.current);
         ladda.start();
     }
 
@@ -26,5 +27,9 @@ class InstallButton extends Component {
         );
     }
 }
+
+InstallButton.propTypes = {
+    onClick: PropTypes.func
+};
 
 export default InstallButton;

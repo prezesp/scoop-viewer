@@ -49,7 +49,7 @@ h4 {
 
 /* Components */
 .header {
-    background-color: #171814 !important;
+    background-color: #171814;
     margin-left: -15px;
     margin-right: -15px;
     position: fixed;
@@ -63,11 +63,11 @@ h4 {
     }
 }
 
-.header-tab
+.navbar-brand.header-tab
 {
     background: rgb(39, 40, 34);
     border-radius: 0px 30px 0px 0px;
-    color: #fff !important;
+    color: #fff;
     font-weight: 500;
     margin: -15px;
     margin-right:40px;
@@ -88,7 +88,7 @@ h4 {
 }
 
 main h4, main p {
-    font-family: 'Consolas', monospace !important;
+    font-family: 'Consolas', monospace;
 }
 
 main div.row {
@@ -143,4 +143,8 @@ nav.navbar-light .navbar-nav .nav-link {
 
 nav.navbar-light .navbar-nav .nav-link:hover {
     color: #fff;
+}
+
+.dropdown-item {
+    cursor: pointer;
 }
