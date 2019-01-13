@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import BucketContent from './bucket-content'
+import BucketContent from './bucket-content';
+import PropTypes from 'prop-types';
 
 const CancelToken = axios.CancelToken;
 
@@ -22,7 +23,7 @@ class BucketContainer extends Component {
         axios.get(url, {
             cancelToken: new CancelToken((c) => {
                 this.cancel = c;
-              })
+            })
         }).then(res => {
             const items = res.data;
             this.setState({ items, pending: false });
@@ -31,21 +32,14 @@ class BucketContainer extends Component {
     }
 
     componentDidMount() {
-        console.log("--> componentDidMount");
         this._loadData();
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log("--> componentDidUpdate");
         if (!prevState.pending && (prevState.name !== this.state.name || prevState.query !== this.state.query)) {
-            console.log("$   componentDidUpdate - loadData", prevProps)
-            console.log("$                                ", prevState)
-            console.log("$                                ", this.state)
             this._loadData();
-        }
-        else if (prevState.pending && (prevState.name !== this.state.name || prevState.query !== this.state.query)) {
+        } else if (prevState.pending && (prevState.name !== this.state.name || prevState.query !== this.state.query)) {
             if (this.cancel) {
-                console.log("cancelling");
                 this.cancel();
                 this._loadData();
             }
@@ -53,37 +47,39 @@ class BucketContainer extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.query !== prevState.query || nextProps.name !== prevState.name ) {
-            
-            console.log("--> Change:", nextProps.query, prevState.query, "\n", nextProps.name, prevState.name);
+        if (nextProps.query !== prevState.query || nextProps.name !== prevState.name) {
             return {
                 items: [],
                 query: nextProps.query,
                 name: nextProps.name,
-                pending: true,
+                pending: true
             };
         }
 
-        console.log("$   No state update necessary")
-        // No state update necessary
         return null;
     }
-    
+
     render() {
         const content = !this.state.pending ? (
-                <BucketContent items={this.state.items} apiRoot={this.apiRoot} />
-            ) : (
-                <div className="text-center" style={{paddingTop:"40px"}}>
-                    <p><i className="fa fa-cog fa-spin" style={{fontSize:'32px'}}></i></p>
-                    <p>Loading...</p>
-                </div>
-            )
-        return (
-            <div style={{paddingTop:"5px"}}>
-                {content}
+            <BucketContent items={this.state.items} apiRoot={this.apiRoot} />
+        ) : (
+            <div className='text-center' style={{ paddingTop: '40px' }}>
+                <p><i className='fa fa-cog fa-spin' style={{ fontSize: '32px' }}></i></p>
+                <p>Loading...</p>
             </div>
-        )
+        );
+        return (
+            <div style={{ paddingTop: '5px' }}>
+                { content }
+            </div>
+        );
     }
 }
+
+BucketContainer.propTypes = {
+    apiRoot: PropTypes.string,
+    name: PropTypes.string,
+    query: PropTypes.string
+};
 
 export default BucketContainer;

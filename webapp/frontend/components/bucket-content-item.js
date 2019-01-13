@@ -2,19 +2,22 @@ import React, { Component } from 'react';
 import InstallButton from './buttons/install-button';
 import UninstallButton from './buttons/uninstall-button';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 const config = {
     POLLING_INTERVAL: 200,
     PROGRESS_INTERVAL: 100,
     PERCENT_PER_INTERVAL: 0.04
-}
+};
 
-class ItemLogic extends Component {
+class ItemLogic {
     constructor(props) {
-        super(props);
-        this.onInstall = this.props.onInstall;
-        this.onProgress = this.props.onProgress;
-        this.onUninstall = this.props.onUninstall;
+        this.apiRoot = props.apiRoot;
+        this.appName = props.name;
+
+        this.onInstall = props.onInstall;
+        this.onProgress = props.onProgress;
+        this.onUninstall = props.onUninstall;
 
         this.install = this.install.bind(this);
         this.uninstall = this.uninstall.bind(this);
@@ -23,19 +26,19 @@ class ItemLogic extends Component {
     }
 
     install() {
-        axios.get(this.props.apiRoot + `/app/${this.props.name}/install`, {
-                headers: { Pragma: 'no-cache'}
-            }).then(res => {
-                this.fileSize = null;
-                this.timer = setInterval(()=> this.pollInstallStatus(), config.POLLING_INTERVAL);
+        axios.get(this.apiRoot + `/app/${this.appName}/install`, {
+            headers: { Pragma: 'no-cache'}
+        }).then(() => {
+            this.fileSize = null;
+            this.timer = setInterval(() => this.pollInstallStatus(), config.POLLING_INTERVAL);
         });
     }
 
     uninstall() {
-        axios.get(this.props.apiRoot + `/app/${this.props.name}/uninstall`,{
-                headers: { Pragma: 'no-cache'}
-            }).then(res => {
-                this.onUninstall();
+        axios.get(this.apiRoot + `/app/${this.appName}/uninstall`,{
+            headers: { Pragma: 'no-cache'}
+        }).then(() => {
+            this.onUninstall();
         });
     }
     
@@ -48,25 +51,24 @@ class ItemLogic extends Component {
     }
 
     pollInstallStatus() {
-        axios.get(this.props.apiRoot + `/app/${this.props.name}/get_status`, {
-                headers: { Pragma: 'no-cache'}
-            }).then(res => {
-                if (this.fileSize == null && res.data.size_in_mb ) {
-                    this.fileSize =  Math.ceil(parseFloat(res.data.size_in_mb));
-                    this.fileSizeLeft = this.fileSize;
-                    this.timer2 = setInterval(()=> this.progress(), config.PROGRESS_INTERVAL);
-                    
-                }
-                if (res.data.status === 'done') {
-                    this.fileSizeLeft = 0;
-                    this.progress();
-                    this.onInstall();
+        axios.get(this.apiRoot + `/app/${this.appName}/get_status`, {
+            headers: { Pragma: 'no-cache'}
+        }).then((res) => {
+            if (this.fileSize == null && res.data.size_in_mb ) {
+                this.fileSize =  Math.ceil(parseFloat(res.data.size_in_mb));
+                this.fileSizeLeft = this.fileSize;
+                this.timer2 = setInterval(() => this.progress(), config.PROGRESS_INTERVAL);                    
+            }
+            if (res.data.status === 'done') {
+                this.fileSizeLeft = 0;
+                this.progress();
+                this.onInstall();
 
-                    this.fileSize = this.fileSizeLeft = null;
-                    clearInterval(this.timer);
-                    clearInterval(this.timer2);
-                    this.timer = this.timer2 = null;
-                }
+                this.fileSize = this.fileSizeLeft = null;
+                clearInterval(this.timer);
+                clearInterval(this.timer2);
+                this.timer = this.timer2 = null;
+            }
         });
     }
 }
@@ -98,8 +100,8 @@ class BucketContentItem extends Component {
     }
 
     onUninstall() {
-        this.setState({installed: false})
-    }   
+        this.setState({ installed: false });
+    }
 
     onProgress(percent) {
         if (percent < 100) {
@@ -118,7 +120,7 @@ class BucketContentItem extends Component {
                 <div className="col-sm-9">
                     <h4>{ this.state.name }</h4>
                     <p>{ this.state.description }</p>
-                    <p><small><a href={this.state.homepage} target="_blank">{this.state.homepage}</a></small></p>
+                    <p><small><a href={this.state.homepage} rel='noopener noreferrer' target="_blank">{this.state.homepage}</a></small></p>
                 </div>
                 <div className="col-sm-3 text-right">
                     { this.state.installed ? (<UninstallButton onClick={this.logic.uninstall}/>) : (<InstallButton onClick={this.logic.install}/>) }
@@ -131,10 +133,14 @@ class BucketContentItem extends Component {
                                 style={ this.state.progressStyle }></div>
                         </div>
                     </div>
-                : null }
+                    : null }
             </div>
-        )
+        );
     }
 }
+
+BucketContentItem.propTypes = {
+    apiRoot: PropTypes.string
+};
 
 export default BucketContentItem;

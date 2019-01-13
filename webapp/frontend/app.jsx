@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import BucketsList from './components/buckets-list';
 import BucketContainer from './components/bucket-container';
 import Header from './components/header';
@@ -9,8 +10,8 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-          currentBucket: 'Main-bucket',
-          query: ''
+            currentBucket: 'Main-bucket',
+            query: ''
         };
         this.apiRoot = this.props.apiRoot;
         this.handleBucketChange = this.handleBucketChange.bind(this);
@@ -40,8 +41,13 @@ class App extends React.Component {
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
 
-ReactDOM.render(<App {...(app.dataset)}/>, document.getElementById('app'));
+App.propTypes = {
+    apiRoot: PropTypes.string
+};
+
+var appContainer = document.getElementById('app');
+ReactDOM.render(<App {...(appContainer.dataset)}/>, appContainer);

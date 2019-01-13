@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class SearchBox extends Component {
     constructor(props) {
@@ -35,8 +36,12 @@ class SearchBox extends Component {
                     onChange={event => this.setState({query: event.target.value})}
                     onKeyPress={this.handleKeyPress}/>
             </div>
-        )
+        );
     }
 }
+
+SearchBox.propTypes = {
+    onSearch: PropTypes.func
+};
 
 export default SearchBox;

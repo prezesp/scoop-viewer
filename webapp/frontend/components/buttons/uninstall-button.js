@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class UninstallButton extends Component {
     constructor(props) {
@@ -10,22 +11,22 @@ class UninstallButton extends Component {
         this.onClick = this.props.onClick;
         this.state = {
             showDropdown: false
-        }
+        };
     }
 
     handleUninstallClick() {    
-        var l = Ladda.create(this.buttonRef.current);
+        var l = window.Ladda.create(this.buttonRef.current);
         l.start();
         this.onClick();
     }
 
     show() {
-        this.setState({ showDropdown: true})
+        this.setState({ showDropdown: true });
         document.addEventListener("click", this.hide);
     }
 
     hide() {
-        this.setState({ showDropdown: false})
+        this.setState({ showDropdown: false });
         document.removeEventListener("click", this.hide);
     }
 
@@ -58,8 +59,12 @@ class UninstallButton extends Component {
                         null}
                 </div>
             </div>
-        )
+        );
     }
 }
+
+UninstallButton.propTypes = {
+    onClick: PropTypes.func
+};
 
 export default UninstallButton;
