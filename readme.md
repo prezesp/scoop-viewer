@@ -1,6 +1,7 @@
 scoop-viewer
 =
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f9a22f431b884639a1522f475d73724b)](https://app.codacy.com/app/prezesp/scoop-viewer?utm_source=github.com&utm_medium=referral&utm_content=prezesp/scoop-viewer&utm_campaign=Badge_Grade_Dashboard)
 [![Build status](https://ci.appveyor.com/api/projects/status/hlkmvdo8r6nypgc9?svg=true)](https://ci.appveyor.com/project/prezesp/scoop-viewer)
 
 ---
