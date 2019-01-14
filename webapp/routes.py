@@ -10,7 +10,7 @@ from providers import ScoopNotInstalled
 from webapp.utils import get_apps, shutdown_server, get_provider, get_buckets, MAIN_BUCKET
 
 # Hack for pyinstaller
-# pylint: disable=E1101, W0212, C0103
+# pylint: disable=E1101, W0212, C0103, W0612
 def create_app(config_name):
     if getattr(sys, 'frozen', False):
         template_folder = os.path.join(sys.executable, '..', 'templates')
@@ -25,14 +25,14 @@ def create_app(config_name):
     app.current_task_size_wrapper = [None]
 
     executor = Executor(app)
-    
+
     # settings depending on config
     if config_name == 'testing':
         app.config['test'] = True
         config_path = 'tests/config.yml'
     else:
         config_path = 'config.yml'
-        
+
     # read config file
     workdir = os.path.dirname(os.path.realpath(__file__))
     with open(os.path.join(workdir, '..', config_path)) as f:
@@ -96,14 +96,14 @@ def create_app(config_name):
     @app.route('/app/<app_name>/install')
     def install(app_name):
         """ Install app. """
-        
+
         provider = get_provider(app.config)
         app.current_task = executor.submit(provider.install, app_name, app.current_task_size_wrapper)
         return "OK"
 
     @app.route('/app/<app_name>/get_status')
     def get_result(app_name):
-        
+
         if app.current_task != None:
             if app.current_task.running():
                 size = app.current_task_size_wrapper[0]

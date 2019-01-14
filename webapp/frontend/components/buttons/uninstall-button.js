@@ -22,12 +22,12 @@ class UninstallButton extends Component {
 
     show() {
         this.setState({ showDropdown: true });
-        document.addEventListener("click", this.hide);
+        document.addEventListener('click', this.hide);
     }
 
     hide() {
         this.setState({ showDropdown: false });
-        document.removeEventListener("click", this.hide);
+        document.removeEventListener('click', this.hide);
     }
 
     render() {

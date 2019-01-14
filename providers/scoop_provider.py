@@ -3,13 +3,24 @@ from subprocess import Popen, PIPE # nosec
 import logging
 import re
 
+UNITS = {"B": 1, "KB": 10**3, "MB": 10**6, "GB": 10**9, "TB": 10**12}
+
+def parse_size(line):
+    """ Converts numeric value included in line to megabytes. """
+
+    prog = re.compile('\(([0-9]+[.,][0-9]*) ([A-Z]+)')
+    match = prog.search(line)
+    number, unit = match.group(1), match.group(2).upper()
+    if unit == 'MB':
+        return number
+    return int(float(number) * UNITS[unit]) * UNITS['MB']
+
 class ScoopNotInstalled(Exception):
     """ Exception thrown when scoop was not detected. """
     pass
 
 class ScoopProvider:
     """ Module to interact with scoop. """
-    units = {"B": 1, "KB": 10**3, "MB": 10**6, "GB": 10**9, "TB": 10**12}
 
     def __init__(self):
         import shutil
@@ -58,22 +69,12 @@ class ScoopProvider:
         # if return_code:
         #     raise subprocess.CalledProcessError(return_code, cmd)
 
-    def __parse_size(self, line):
-        """ Converts numeric value included in line to megabytes. """
-
-        prog = re.compile('\(([0-9]+[.,][0-9]*) ([A-Z]+)')
-        match = prog.search(line)
-        number, unit = match.group(1), match.group(2).upper()
-        if unit == 'MB':
-            return number
-        return int(float(number) * units[unit]) * units['MB']
-
     def install(self, app, file_size_wrapper): # pylint: disable=R0201
         """ Install app through scoop. """
 
         for line in self.__exec_cmd(['install', app]):
             if line.startswith("Downloading"):
-                file_size_wrapper[0] = self.__parse_size(line)
+                file_size_wrapper[0] = parse_size(line)
         file_size_wrapper[0] = None
 
 
