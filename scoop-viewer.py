@@ -101,10 +101,9 @@ if __name__ == '__main__':
     elif platform.system() == "Windows":
         from windows_reg import run_as_ie11
         run_as_ie11()
-    
+
     # is test environment?
     TEST = parse().test
 
     # start app
     run()
-

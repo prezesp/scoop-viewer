@@ -1,8 +1,6 @@
-import time
 import unittest
 import os
 import logging
-from urllib.request import urlopen
 
 from flask_testing import LiveServerTestCase
 from selenium import webdriver
@@ -20,8 +18,8 @@ class TestBase(LiveServerTestCase):
             workdir = os.path.dirname(os.path.realpath(__file__))
             os.remove(os.path.join(workdir, '..', 'providers', 'mock', 'scoop-installed-apps.txt'))
         except OSError:
-            pass    
-        
+            pass
+
         config_name = 'testing'
         app = create_app(config_name)
         app.config.update(
@@ -41,10 +39,6 @@ class TestBase(LiveServerTestCase):
     def tearDown(self):
         self.driver.quit()
 
-    #def test_server_is_up_and_running(self):
-    #    response = urlopen(self.get_server_url())
-    #    self.assertEqual(response.code, 200)
-
 
 class SimpleTests(TestBase):
     def test_search(self):
@@ -58,8 +52,8 @@ class SimpleTests(TestBase):
         elem.send_keys("example-app-02")
         elem.send_keys(Keys.RETURN)
         wait.until(lambda driver: "Loading" not in driver.page_source)
-        assert "example-app-01" not in driver.page_source
-        assert "example-app-02" in driver.page_source
+        self.assertTrue("example-app-01" not in driver.page_source)
+        self.assertTrue("example-app-02" in driver.page_source)
 
     def test_install(self):
         driver = self.driver
@@ -69,8 +63,7 @@ class SimpleTests(TestBase):
         elem = driver.find_element_by_css_selector("#app > div > div > div > main.col-md-9 > div > div > div:nth-child(1) > div.col-sm-3.text-right > button")
         elem.click()
         wait.until(lambda driver: "Installed" in driver.page_source)
-        assert "Installed" in driver.page_source
-    
+        self.assertTrue("Installed" in driver.page_source)
 
 
 if __name__ == '__main__':

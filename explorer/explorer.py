@@ -33,7 +33,5 @@ class Explorer():
             for file in os.listdir(directory):
                 if os.path.isdir(os.path.join(directory, file)):
                     buckets.append(file)
-        
+
         return buckets
-
-

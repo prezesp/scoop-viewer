@@ -19,7 +19,7 @@ def expandvars(text):
 
     if platform.system() == "Darwin":
         text = re.sub(r'\%(.*?)\%', lambda m: os.environ[m.group().replace('%', '')], text)
-    
+
     pattern = re.compile('|'.join(special_vars_mapping.keys()))
     text = pattern.sub(lambda x: special_vars_mapping[x.group()](), text)
 
