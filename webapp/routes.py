@@ -6,7 +6,7 @@ import sys
 import yaml
 from flask import Flask, render_template, request, Response, jsonify
 from flask_executor import Executor
-from providers import ScoopProvider, ScoopNotInstalled, ScoopMockProvider
+from providers import ScoopNotInstalled
 from webapp.utils import get_apps, shutdown_server, get_provider, get_buckets, MAIN_BUCKET
 
 # Hack for pyinstaller
@@ -36,7 +36,7 @@ def create_app(config_name):
     # read config file
     workdir = os.path.dirname(os.path.realpath(__file__))
     with open(os.path.join(workdir, '..', config_path)) as f:
-        config = yaml.load(f)
+        config = yaml.safe_load(f)
 
     app.config['bucket'] = config['SCOOP_BUCKET']
     app.config['extra_buckets'] = config['EXTRA_BUCKETS']
@@ -97,7 +97,7 @@ def create_app(config_name):
     def install(app_name):
         """ Install app. """
         
-        provider = get_provider(app.config)        
+        provider = get_provider(app.config)
         app.current_task = executor.submit(provider.install, app_name, app.current_task_size_wrapper)
         return "OK"
 
@@ -111,7 +111,7 @@ def create_app(config_name):
                     return jsonify({'status': 'running', 'size_in_mb': size})
                 return jsonify({'status': 'running'})
 
-        return jsonify({'status': 'done' }); 
+        return jsonify({'status': 'done'});
 
     @app.route('/app/<app_name>/uninstall')
     def uninstall(app_name):
@@ -119,6 +119,5 @@ def create_app(config_name):
         provider = get_provider(app.config)
         provider.uninstall(app_name)
         return "OK"
-    
-    return app
 
+    return app
