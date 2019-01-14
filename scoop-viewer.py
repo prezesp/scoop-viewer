@@ -79,7 +79,6 @@ def parse():
     parser.add_argument('--test', dest='test', action='store_const',
                         const=True, default=False)
     return parser.parse_args()
-    
 
 def run():
     """ Start app. """
