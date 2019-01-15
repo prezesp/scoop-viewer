@@ -201,5 +201,5 @@ nav.navbar-light .navbar-nav .nav-link:hover {
 }
 body.modal-open {
     overflow: auto;
-    padding-right: 0 !important; /*FIXME*/
+    padding-right: 0 !important; /* csslint allow: important */
 }

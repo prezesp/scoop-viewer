@@ -83,7 +83,7 @@ class ScoopProvider:
 
         _, _ = self.__run_scoop(['uninstall', app]).communicate()
 
-    def add_bucket(self, bucket, url): 
+    def add_bucket(self, bucket, url):
         stdout, _ = self.__run_scoop(['bucket', 'add', bucket, url]).communicate()
         stdout = stdout.decode("utf-8")
         if any(phrase.lower() in ['error', 'fatal', 'unknown', 'missing'] for phrase in stdout.split()):
