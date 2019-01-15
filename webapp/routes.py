@@ -4,7 +4,7 @@ import json
 import os
 import sys
 import yaml
-from flask import Flask, render_template, request, Response, jsonify
+from flask import Flask, render_template, request, Response, jsonify, abort
 from flask_executor import Executor
 from providers import ScoopNotInstalled
 from webapp.utils import get_apps, shutdown_server, get_provider, get_buckets, MAIN_BUCKET
@@ -65,12 +65,20 @@ def create_app(config_name):
         buckets = get_buckets(app.config['extra_buckets'])
         return Response(json.dumps(buckets), mimetype='application/json')
 
-    @app.route('/bucket/<name>/')
+    @app.route('/bucket/<name>/', methods=['GET'])
     def get_bucket(name):
         provider = get_provider(app.config)
         bucket = app.config['bucket'] if name == MAIN_BUCKET else os.path.join(app.config['extra_buckets'], name)
         apps = get_apps(provider, bucket, None)
         return Response(json.dumps(apps), mimetype='application/json')
+
+    @app.route('/bucket', methods=['POST'])
+    def add_bucket():
+        name, url = request.get_json()['name'], request.get_json()['url']
+        provider = get_provider(app.config)
+        if provider.add_bucket(name, url):
+            return "OK"
+        abort(404)
 
     @app.route('/search2/')
     def search2():
@@ -111,7 +119,7 @@ def create_app(config_name):
                     return jsonify({'status': 'running', 'size_in_mb': size})
                 return jsonify({'status': 'running'})
 
-        return jsonify({'status': 'done'});
+        return jsonify({'status': 'done'})
 
     @app.route('/app/<app_name>/uninstall')
     def uninstall(app_name):

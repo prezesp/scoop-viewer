@@ -10,8 +10,10 @@
         <div id="app" data-api-root={{ request.script_root|tojson|safe }}></div>
 
         <script src="{{url_for('static', filename='js/bundle.js')}}"></script>
+		<script src="{{url_for('static', filename='js/custom_event_polyfill.js')}}"></script>
         <script type=text/javascript src="{{ url_for('static', filename='vendor/ladda/spin.min.js') }}"></script>
 		<script type=text/javascript src="{{ url_for('static', filename='vendor/ladda/ladda.min.js') }}"></script>
+		<script type=text/javascript src="{{ url_for('static', filename='vendor/bootstrap.native/bootstrap-native-v4.min.js') }}"></script> <!--FIXME min-->
 
         <script>
 			var isCtrl = false;
