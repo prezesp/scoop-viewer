@@ -21,11 +21,12 @@ class BucketsList extends Component {
     }
     
     getBuckets() {
-        axios.get(this.apiRoot + '/buckets')
-            .then(res => {
-                const buckets = res.data;
-                this.setState({ buckets });
-            });
+        axios.get(this.apiRoot + '/buckets', {
+            headers: { Pragma: 'no-cache'}
+        }).then(res => {
+            const buckets = res.data;
+            this.setState({ buckets });
+        });
     }
 
     handleClick(e, bucket) {
