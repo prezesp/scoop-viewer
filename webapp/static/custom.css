@@ -41,6 +41,18 @@ h4 {
 .sidebar .nav-link {
     border-radius: 0;
 }
+
+.sidebar .add-item a {
+    text-align: center;
+    border: 2px dashed #dcdcdc;
+    border-radius: 3px;
+    margin-right: 30px;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+.sidebar .add-item a:hover {
+    border-color: #ccc;
+}
   
 .sidebar a {    
     color: #616060;
@@ -147,4 +159,47 @@ nav.navbar-light .navbar-nav .nav-link:hover {
 
 .dropdown-item {
     cursor: pointer;
+}
+
+/* modal */
+.modal-dialog .modal-content {
+    background:#ebedef;
+    border-radius: 0;
+    box-shadow: 0 0 5px 0px rgba(0,0,0,0.5);
+    color: #000;
+    font-size: 11px;
+}
+.modal-dialog .modal-header {
+    padding: 5px;
+}
+.modal-dialog .modal-header h5 {
+    font-size: 14px;
+}
+.modal-dialog .modal-header .close,
+.modal-dialog .modal-content .close {
+    font-size: 14px;
+}
+.modal-dialog .modal-content .modal-body {
+    padding: 5px;
+}
+.modal-dialog .modal-content form {
+    margin-bottom: 0;
+}
+.modal-dialog .modal-content .form-group {
+    margin-bottom: 3px;
+}
+.modal-dialog .modal-content .form-control {
+    border: none;
+}
+.modal-dialog .modal-content label {
+    text-align: right;
+}
+
+.modal-dialog .modal-footer {
+    padding: 5px;
+    padding-top: 0;
+}
+body.modal-open {
+    overflow: auto;
+    padding-right: 0 !important; /*FIXME*/
 }

@@ -28,6 +28,11 @@ gulp.task('copy', function() {
         '!**/ladda.jquery.min.js'
     ])
         .pipe(gulp.dest('../static/vendor/ladda'));
+
+    gulp.src([
+        'node_modules/bootstrap.native/dist/bootstrap-native-v4.min.js'
+    ])
+        .pipe(gulp.dest('../static/vendor/bootstrap.native'));
 });
 
 gulp.task('webpack', function() {

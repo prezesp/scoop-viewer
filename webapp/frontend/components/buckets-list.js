@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import AddBucketDialog from './dialogs/add-bucket-dialog';
 
 class BucketsList extends Component {
     constructor(props) {
@@ -12,9 +13,14 @@ class BucketsList extends Component {
         this.apiRoot = this.props.apiRoot;
 
         this.handleBucketChange = this.props.handleBucketChange;
+        this.getBuckets = this.getBuckets.bind(this);
     }
 
     componentDidMount() {
+        this.getBuckets();
+    }
+    
+    getBuckets() {
         axios.get(this.apiRoot + '/buckets')
             .then(res => {
                 const buckets = res.data;
@@ -45,9 +51,17 @@ class BucketsList extends Component {
             </div>
         );
         return (
-            <ul className="nav flex-column">
-                {content}
-            </ul>
+            <div>
+                <ul className="nav flex-column">
+                    {content}
+                    <li className="add-item">
+                        <a className="nav-link active" href="#" data-toggle="modal" data-target="#exampleModal">
+                            <i className="fa fa-plus" style={{color: '#cacaca', paddingRight: '8px'}}></i>
+                        </a>
+                    </li>
+                    <AddBucketDialog apiRoot={this.props.apiRoot} onCompleted={() => this.getBuckets()}/>
+                </ul>
+            </div>
         );
     }
 }
