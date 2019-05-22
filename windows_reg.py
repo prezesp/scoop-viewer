@@ -16,4 +16,4 @@ def run_as_ie11():
     key = wreg.CreateKey(wreg.HKEY_CURRENT_USER,
                          "Software\\Microsoft\\Internet Explorer"
                          "\\Main\\FeatureControl\\FEATURE_BROWSER_EMULATION")
-    wreg.SetValueEx(key, value, 0, wreg.REG_DWORD, 11001)
+    wreg.SetValueEx(key, value, 0, wreg.REG_DWORD, 99999)

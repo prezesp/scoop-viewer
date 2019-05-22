@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Hotkeys from 'react-hot-keys';
 import PropTypes from 'prop-types';
 import BucketsList from './components/buckets-list';
 import BucketContainer from './components/bucket-container';
 import Header from './components/header';
+import QuickCommandDialog from './components/dialogs/quick-command-dialog';
 
 class App extends React.Component {
     constructor(props) {
@@ -26,21 +28,33 @@ class App extends React.Component {
         this.setState({query: newQuery});
     }
 
+    onKeyDown() {
+        document.getElementById('quick-command-trigger').click();
+        setTimeout(() => {
+            document.getElementById('quick-command').focus();
+        }, 200);
+    }
+
     render() {
         return (
-            <div>
-                <div className="container-fluid">
-                    <div className="row">
-                        <nav className="col-md-3 hidden-xs-down bg-faded sidebar">
-                            <BucketsList handleBucketChange={this.handleBucketChange} apiRoot={this.apiRoot}/>
-                        </nav>
-                        <main className="col-md-9 offset-md-3 pt-2">
-                            <Header onSearch={this.handleSearch}/>
-                            <BucketContainer name={this.state.currentBucket} query={this.state.query} apiRoot={this.apiRoot}/>
-                        </main>
+            <Hotkeys 
+                keyName="shift+p" 
+                onKeyDown={this.onKeyDown.bind(this)}>
+                <div>
+                    <div className="container-fluid">
+                        <div className="row">
+                            <nav className="col-md-3 hidden-xs-down bg-faded sidebar">
+                                <BucketsList handleBucketChange={this.handleBucketChange} apiRoot={this.apiRoot}/>
+                            </nav>
+                            <main className="col-md-9 offset-md-3 pt-2">
+                                <Header onSearch={this.handleSearch}/>
+                                <BucketContainer name={this.state.currentBucket} query={this.state.query} apiRoot={this.apiRoot}/>
+                            </main>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <QuickCommandDialog apiRoot={this.props.apiRoot} onSearch={this.handleSearch} />
+            </Hotkeys>
         );
     }
 }

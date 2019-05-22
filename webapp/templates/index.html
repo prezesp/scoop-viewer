@@ -14,34 +14,5 @@
         <script type=text/javascript src="{{ url_for('static', filename='vendor/ladda/spin.min.js') }}"></script>
 		<script type=text/javascript src="{{ url_for('static', filename='vendor/ladda/ladda.min.js') }}"></script>
 		<script type=text/javascript src="{{ url_for('static', filename='vendor/bootstrap.native/bootstrap-native-v4.min.js') }}"></script> <!--FIXME min-->
-
-        <script>
-			var isCtrl = false;
-			var isShift = false;
-			document.addEventListener("DOMContentLoaded", function(event) { 
-				// action on key up
-				document.onkeyup = function(e) {
-					if(e.which == 17) {
-						isCtrl = false;
-					}
-					if(e.which == 16) {
-						isShift = false;
-					}
-				};
-				// action on key down
-				document.onkeydown = function(e) {
-					if(e.which == 17) {
-						isCtrl = true; 
-					}
-					if(e.which == 16) {
-						isShift = true; 
-					}
-					if(e.which == 80 && isShift) { 
-						document.getElementById("searchBox").focus();
-						return false;
-					} 
-				};
-			});
-        </script>
 	</body>
 </html>
