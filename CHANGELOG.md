@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 ### Added 
 - Make it possible to add new bucket.
+- Quick-command window 
 
 ## [v0.7] - 2019-01-09
 ### Added

@@ -18,6 +18,8 @@ class App extends React.Component {
         this.apiRoot = this.props.apiRoot;
         this.handleBucketChange = this.handleBucketChange.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
+
+        this._bucketlist = React.createRef();
     }
 
     handleBucketChange(bucket) {
@@ -44,16 +46,26 @@ class App extends React.Component {
                     <div className="container-fluid">
                         <div className="row">
                             <nav className="col-md-3 hidden-xs-down bg-faded sidebar">
-                                <BucketsList handleBucketChange={this.handleBucketChange} apiRoot={this.apiRoot}/>
+                                <BucketsList 
+                                    ref={this._bucketlist} 
+                                    handleBucketChange={this.handleBucketChange} 
+                                    apiRoot={this.apiRoot}/>
                             </nav>
                             <main className="col-md-9 offset-md-3 pt-2">
                                 <Header onSearch={this.handleSearch}/>
-                                <BucketContainer name={this.state.currentBucket} query={this.state.query} apiRoot={this.apiRoot}/>
+                                <BucketContainer 
+                                    name={this.state.currentBucket} 
+                                    query={this.state.query} 
+                                    apiRoot={this.apiRoot}/>
                             </main>
                         </div>
                     </div>
                 </div>
-                <QuickCommandDialog apiRoot={this.props.apiRoot} onSearch={this.handleSearch} />
+                <QuickCommandDialog 
+                    apiRoot={this.props.apiRoot} 
+                    onSearch={this.handleSearch} 
+                    onCompleted={() => this._bucketlist.current.getBuckets()}/>
+                <a id="quick-command-trigger" href="#" data-toggle="modal" data-target="#quick-command-dialog">TT</a>
             </Hotkeys>
         );
     }
