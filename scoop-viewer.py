@@ -1,6 +1,7 @@
 """ App to browse scoop packages. """
 
 import argparse
+import logging
 import platform
 import sys
 import webbrowser
@@ -94,6 +95,7 @@ def run():
 
 if __name__ == '__main__':
 
+    logging.basicConfig(level='ERROR')
     if platform.system() == "Darwin":
         from darwin_http import hack
         hack()

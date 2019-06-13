@@ -40,12 +40,18 @@ def get_apps(provider, bucket_path, query):
 
     return apps
 
-def get_buckets(path):
+def get_buckets(builtin_bucket, paths):
     """ Get all buckets. """
     ex = Explorer()
-    buckets = [{ 'name': MAIN_BUCKET }]
-    for bucket in ex.get_buckets(expandvars(path)):
-        buckets.append({ 'name': bucket })
+    buckets = []
+
+    # scoop master bucket for legacy versions
+    if os.path.exists(expandvars(builtin_bucket)):
+        buckets.append({ 'name': MAIN_BUCKET})
+
+    for path in paths:
+        for bucket in ex.get_buckets(expandvars(path)):
+            buckets.append({ 'name': bucket })
 
     return buckets
 

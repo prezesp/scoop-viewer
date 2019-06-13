@@ -20,9 +20,17 @@ class Explorer():
     def get_apps(self, directory, pattern=None):
         """ Get all app from bucket directory. """
         apps = []
-        for file in os.listdir(directory):
-            if file.endswith(".json") and ((pattern and pattern in file) or not pattern):
-                apps.append(self.parse_json(os.path.join(directory, file)))
+
+        def browse(dir, pattern, parsefunction):
+            for file in os.listdir(dir):
+                if file.endswith(".json") and ((pattern and pattern in file) or not pattern):
+                    apps.append(parsefunction(os.path.join(dir, file)))
+
+        browse(directory, pattern, self.parse_json)
+
+        bucket_dir = os.path.join(directory, 'bucket')
+        if os.path.exists(bucket_dir):
+            browse(bucket_dir, pattern, self.parse_json)
 
         return apps
 
