@@ -62,12 +62,18 @@ def create_app(config_name):
 
     @app.route('/buckets/')
     def buckets():
-        buckets = get_buckets(app.config['extra_buckets'])
+        buckets = get_buckets(app.config['bucket'], [app.config['extra_buckets']])
         return Response(json.dumps(buckets), mimetype='application/json')
 
     @app.route('/bucket/<name>/', methods=['GET'])
     def get_bucket(name):
+        buckets = get_buckets(app.config['bucket'], [app.config['extra_buckets']])
+
+        if not any(name in b['name'] for b in buckets):
+            name = buckets[0]['name']
+
         provider = get_provider(app.config)
+        # fix main bucket
         bucket = app.config['bucket'] if name == MAIN_BUCKET else os.path.join(app.config['extra_buckets'], name)
         apps = get_apps(provider, bucket, None)
         return Response(json.dumps(apps), mimetype='application/json')
@@ -94,7 +100,8 @@ def create_app(config_name):
         #query = request.args.get('q', default='*', type=str)
 
         apps = []
-        for bucket in get_buckets(app.config['extra_buckets']):
+        buckets = get_buckets(app.config['bucket'], [app.config['extra_buckets']])
+        for bucket in buckets:
             bucket_dir = app.config['bucket'] if bucket['name'] == MAIN_BUCKET else os.path.join(app.config['extra_buckets'], bucket['name'])
             apps.extend(get_apps(provider, bucket_dir, query))
         
