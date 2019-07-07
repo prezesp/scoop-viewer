@@ -16,8 +16,8 @@ class Explorer():
                 data = json.load(app_config, strict=False)
                 app['description'] = data['description'] if 'description' in data else ''
                 app['homepage'] = data['homepage'] if 'homepage' in data else ''
-            except Exception as e:
-                logging.warning('Cannot read file %s' % file)
+            except Exception:
+                logging.warning('Cannot read file %s' % file, exc_info=True)
                 app = dict()
 
         return app
