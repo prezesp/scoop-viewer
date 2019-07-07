@@ -1,5 +1,6 @@
 """ Module to explore buckets. """
 
+import logging
 import json
 import os
 
@@ -9,11 +10,15 @@ class Explorer():
     def parse_json(self, file): # pylint: disable=R0201
         """ Parse json with app configuration for scoop. """
         app = dict()
-        with open(file) as app_config:
-            app['name'] = os.path.basename(file).replace('.json', '')
-            data = json.load(app_config, strict=False)
-            app['description'] = data['description'] if 'description' in data else ''
-            app['homepage'] = data['homepage'] if 'homepage' in data else ''
+        with open(file, encoding='utf8') as app_config:
+            try:
+                app['name'] = os.path.basename(file).replace('.json', '')
+                data = json.load(app_config, strict=False)
+                app['description'] = data['description'] if 'description' in data else ''
+                app['homepage'] = data['homepage'] if 'homepage' in data else ''
+            except Exception as e:
+                logging.warning('Cannot read file %s' % file)
+                app = dict()
 
         return app
 
@@ -24,7 +29,9 @@ class Explorer():
         def browse(dir, pattern, parsefunction):
             for file in os.listdir(dir):
                 if file.endswith(".json") and ((pattern and pattern in file) or not pattern):
-                    apps.append(parsefunction(os.path.join(dir, file)))
+                    app_dict = parsefunction(os.path.join(dir, file))
+                    if len(app_dict) > 0:
+                        apps.append(app_dict)
 
         browse(directory, pattern, self.parse_json)
 
