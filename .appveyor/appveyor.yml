@@ -4,18 +4,22 @@ environment:
   matrix:
     - PYTHON: "C:\\Python36-x64"
 
+platform:
+- x64
+
 install:
   - "%PYTHON%\\python.exe -m pip install -r requirements.txt"
   - "rmdir %PYTHON%\\Lib\\site-packages\\tests /s /q"
   - ps: Install-Product node $env:nodejs_version
   - npm install -g gulp
   - "cd webapp\\frontend && npm install && gulp"
-  - choco install firefox
-  - choco install selenium-gecko-driver
+  - choco install firefox --version 67.0.4 --forcex86
+  - choco install selenium-gecko-driver --version 0.24.0
 
 build: off
 
 test_script:
+  - geckodriver.exe -V
   - "%PYTHON%\\python.exe -m tests.test -v"
 
 after_test:

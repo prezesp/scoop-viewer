@@ -19,7 +19,7 @@ class BucketContainer extends Component {
     }
 
     _loadData() {
-        let url = this.apiRoot + (this.state.query.length > 0 ? `/search/${this.state.query}` : `/bucket/${this.state.name}`);
+        let url = this.apiRoot + (this.state.query.length > 0 ? `/search/${this.state.query}` : `/bucket/${this.state.name}?${Date.now()}`);
         axios.get(url, {
             cancelToken: new CancelToken((c) => {
                 this.cancel = c;

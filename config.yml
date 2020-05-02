@@ -1,2 +1,3 @@
-SCOOP_BUCKET: '%SCOOP%\apps\scoop\current\bucket'
 EXTRA_BUCKETS: '%SCOOP%\buckets'
+INSTALLED_ON_TOP: 'true'
+SCOOP_BUCKET: '%SCOOP%\apps\scoop\current\bucket'

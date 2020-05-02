@@ -1,21 +1,23 @@
 <html>
 	<head>
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="Expires" content="-1">
 		<title>Scoop Viewer</title>
 		<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}">
-        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/ladda/ladda-themeless.min.css')}}">
+		<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/ladda/ladda-themeless.min.css')}}">
 		<link rel="stylesheet" href="{{url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css')}}">
 		<link rel="stylesheet" href="{{url_for('static', filename='custom.css')}}">
 	</head>
 	<body>
-        <div id="app" data-api-root={{ request.script_root|tojson|safe }}></div>
+		<div id="app" data-api-root={{ request.script_root|tojson|safe }}></div>
 
-        <script src="{{url_for('static', filename='js/bundle.js')}}"></script>
+		<script src="{{url_for('static', filename='js/bundle.js')}}"></script>
 		<script src="{{url_for('static', filename='js/custom_event_polyfill.js')}}"></script>
-        <script type=text/javascript src="{{ url_for('static', filename='vendor/ladda/spin.min.js') }}"></script>
+		<script type=text/javascript src="{{ url_for('static', filename='vendor/ladda/spin.min.js') }}"></script>
 		<script type=text/javascript src="{{ url_for('static', filename='vendor/ladda/ladda.min.js') }}"></script>
 		<script type=text/javascript src="{{ url_for('static', filename='vendor/bootstrap.native/bootstrap-native-v4.min.js') }}"></script> <!--FIXME min-->
 
-        <script>
+		<script>
 			var isCtrl = false;
 			var isShift = false;
 			document.addEventListener("DOMContentLoaded", function(event) { 
@@ -42,6 +44,6 @@
 					} 
 				};
 			});
-        </script>
+		</script>
 	</body>
 </html>

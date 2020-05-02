@@ -1,6 +1,7 @@
 """ App to browse scoop packages. """
 
 import argparse
+import datetime
 import logging
 import platform
 import sys
@@ -26,7 +27,7 @@ class Viewer(wx.Frame): # pylint: disable=too-many-ancestors
 
         sizer = wx.BoxSizer(wx.VERTICAL)
         self.browser = wx.html2.WebView.New(self)
-        self.browser.EnableContextMenu(False)
+        #self.browser.EnableContextMenu(False)
         self.browser.Bind(wx.html2.EVT_WEBVIEW_NEWWINDOW, Viewer.handle_new_window)
 
         sizer.Add(self.browser, 1, wx.EXPAND, 10)
@@ -88,7 +89,7 @@ def run():
     splash_screen()
 
     viewer = Viewer(None, title="scoop-viewer")
-    viewer.browser.LoadURL(ROOT_URL)
+    viewer.browser.LoadURL("{0}?{1}".format(ROOT_URL, int(datetime.datetime.now().timestamp())))
     viewer.Show()
 
     wx_app.MainLoop()
