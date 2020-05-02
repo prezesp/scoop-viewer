@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import BottomPanel from './components/bottom-panel';
 import BucketsList from './components/buckets-list';
 import BucketContainer from './components/bucket-container';
 import Header from './components/header';
@@ -48,6 +49,7 @@ class App extends React.Component {
                             <Header active={this.state.page} onSearch={this.handleSearch} onPageChange={this.changePage}/>
                             { page }
                         </main>
+                        <BottomPanel/>
                     </div>
                 </div>
             </div>
