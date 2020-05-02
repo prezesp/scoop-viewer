@@ -21,8 +21,6 @@
     "bootstrap.native": "^2.0.24",
     "es6-promise-promise": "^1.0.0",
     "font-awesome": "^4.7.0",
-    "gulp": "^3.9.1",
-    "gulp-util": "^3.0.8",
     "ladda": "^1.0.6",
     "prop-types": "^15.6.2",
     "react": "^16.3.2",
@@ -37,6 +35,7 @@
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-react": "^7.12.3",
-    "eslint-plugin-standard": "^4.0.0"
+    "eslint-plugin-standard": "^4.0.0",
+    "gulp": "^4.0.2"
   }
 }

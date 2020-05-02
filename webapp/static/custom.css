@@ -1,205 +1,259 @@
 body {
-    background: rgb(39, 40, 34);
-    color: #fff;
-    padding-top: 50px;
-    font-size: 0.8rem;
+  background: rgb(39, 40, 34);
+  color: #fff;
+  padding-top: 50px;
+  font-size: 0.8rem;
 }
 
 h4 {
-    font-size: 1.3rem;
+  font-size: 1.3rem;
 }
+
+main h4 {
+  font-family: 'Consolas', monospace;
+}
+
+main div.row {
+  border: 0;
+  border-bottom: 3px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 0.2rem;
+  padding-top: 1.2rem;
+}
+
+main div.row:hover {
+  background-color: rgb(62, 61, 50);
+}
+
+main div.row p {
+  font-family: 'Consolas', monospace;
+}
+
+main div.row a {
+  color: #fff;
+}
+
+main div.row a:hover {
+  color: rgb(202, 202, 202);
+}
+
 /*
  * Sidebar
  */
 
 .sidebar {
-    background: rgb(230, 230, 230);
-    position: fixed;
-    top: 0px;
-    bottom: 0;
-    left: 0;
-    z-index: 1000;
-    padding: 12px 10px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    border-right: 1px solid #eee;
-    padding-right: 0;
+  background: rgb(230, 230, 230);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  padding: 12px 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-right: 1px solid #eee;
+  padding-right: 0;
 }
-  
+
 .sidebar .nav {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
-  
+
+.sidebar .nav-item a {
+  color: #616060;
+  font-weight: 500;
+}
+
 .sidebar .nav-item {
-    width: 100%;
+  width: 100%;
 }
-  
+
 .sidebar .nav-item + .nav-item {
-    margin-left: 0;
+  margin-left: 0;
 }
-  
+
 .sidebar .nav-link {
-    border-radius: 0;
+  border-radius: 0;
 }
 
 .sidebar .add-item a {
-    text-align: center;
-    border: 2px dashed #dcdcdc;
-    border-radius: 3px;
-    margin-right: 30px;
-    margin-left: 20px;
-    margin-top: 10px;
-}
-.sidebar .add-item a:hover {
-    border-color: #ccc;
-}
-  
-.sidebar a {    
-    color: #616060;
-    font-weight: 500;
+  text-align: center;
+  border: 2px dashed #dcdcdc;
+  border-radius: 3px;
+  margin-right: 30px;
+  margin-left: 20px;
+  margin-top: 10px;
 }
 
-/* Components */
+.sidebar .add-item a:hover {
+  border-color: #ccc;
+}
+
 .header {
-    background-color: #171814;
-    margin-left: -15px;
-    margin-right: -15px;
-    position: fixed;
-    top: 0px;
-    z-index: 2;
+  background-color: #171814;
+  margin-left: -15px;
+  margin-right: -15px;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  z-index: 2;
 }
 
 @media (min-width: 576px) {
-    .header {
-        width: 75%;
-    }
+  .header {
+    width: 75%;
+  }
 }
 
-.navbar-brand.header-tab
-{
-    background: rgb(39, 40, 34);
-    border-radius: 0px 30px 0px 0px;
-    color: #fff;
-    font-weight: 500;
-    margin: -15px;
-    margin-right:40px;
-    padding: 20px;
-    position: relative;
+.navbar-brand.header-tab {
+  border-radius: 0 30px 0 0;
+  color: #fff;
+  font-weight: 500;
+  margin: -15px;
+  margin-right: -10px;
+  position: relative;
+  height: 60px;
+  overflow: hidden;
+  z-index: 0;
 }
 
-.header-tab-arrow
-{
-  border-color: transparent transparent rgb(39, 40, 34) rgb(39, 40, 34);
+.navbar-brand.header-tab:active,
+.navbar-brand.header-tab:focus {
+  color: #fff;
+}
+
+.navbar-brand.header-tab:hover {
+  color: #ccc;
+}
+
+.header-tab.active {
+  z-index: 1;
+}
+
+.header-tab > p {
+  background: rgb(30, 31, 24);
+  border-radius: 15px;
+  float: left;
+  margin: 0;
+  padding: 10px 20px;
+  height: 60px;
+}
+
+.header-tab.active > p {
+  background-color: rgb(39, 40, 34);
+}
+
+.header-tab-arrow {
+  border-color: rgb(30, 31, 24);
   border-style: solid;
   border-width: 30px 15px;
-  height:0;
-  width:0;
-  position:absolute;
-  bottom:0px;
-  right:-23px;
+  height: 0;
+  width: 0;
+  float: left;
+  bottom: 0;
+  margin-top: 10px;
 }
 
-main h4, main p {
-    font-family: 'Consolas', monospace;
+.header-tab.active .header-tab-arrow {
+  border-color: rgb(39, 40, 34);
 }
 
-main div.row {
-    border: 0;
-    border-bottom: 3px solid rgba(0,0,0,.1);
-    padding-bottom: 0.2rem;
-    padding-top: 1.2rem;
+.header-tab .header-tab-arrow.left {
+  border-left-color: transparent;
+  border-top-color: transparent;
+  margin-right: -1px;
 }
 
-main div.row:hover {
-    background-color: rgb(62, 61, 50)
+.header-tab .header-tab-arrow.right {
+  border-right-color: transparent;
+  border-top-color: transparent;
+  margin-left: -1px;
 }
-
-main div.row a {
-    color: #fff;
-}
-
-main div.row a:hover {
-    color: rgb(202, 202, 202);
-}
-
 
 .search-box {
-    border-radius: 0;
-    padding: 0.2rem .75rem;
-    font-family: Consolas;
+  border-radius: 0;
+  padding: 0.2rem 0.75rem;
+  font-family: 'Consolas', monospace;
 }
-
 
 /* Bootstrap override */
 
 .btn-primary {
-    background-color: rgb(88, 194, 229);
-    border-color: rgb(88, 194, 229);
-    color: #000;
+  background-color: rgb(88, 194, 229);
+  border-color: rgb(88, 194, 229);
+  color: #000;
 }
 
 .btn-success {
-    background-color: rgb(116, 170, 4);
-    border-color: rgb(116, 170, 4);
-    color: #000;
+  background-color: rgb(116, 170, 4);
+  border-color: rgb(116, 170, 4);
+  color: #000;
 }
 
 nav .nav-link {
-    padding: .5rem .5rem;
+  padding: 0.5rem 0.5rem;
 }
 
 nav.navbar-light .navbar-nav .nav-link {
-    color: rgb(202, 202, 202);
-    padding: .5rem 1rem;
+  color: rgb(202, 202, 202);
+  padding: 0.5rem 1rem;
 }
 
 nav.navbar-light .navbar-nav .nav-link:hover {
-    color: #fff;
+  color: #fff;
 }
 
 .dropdown-item {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 /* modal */
 .modal-dialog .modal-content {
-    background:#ebedef;
-    border-radius: 0;
-    box-shadow: 0 0 5px 0px rgba(0,0,0,0.5);
-    color: #000;
-    font-size: 11px;
+  background: #ebedef;
+  border-radius: 0;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+  color: #000;
+  font-size: 11px;
 }
+
 .modal-dialog .modal-header {
-    padding: 5px;
+  padding: 5px;
 }
+
 .modal-dialog .modal-header h5 {
-    font-size: 14px;
+  font-size: 14px;
 }
+
 .modal-dialog .modal-header .close,
 .modal-dialog .modal-content .close {
-    font-size: 14px;
+  font-size: 14px;
 }
+
 .modal-dialog .modal-content .modal-body {
-    padding: 5px;
+  padding: 5px;
 }
+
 .modal-dialog .modal-content form {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
+
 .modal-dialog .modal-content .form-group {
-    margin-bottom: 3px;
+  margin-bottom: 3px;
 }
+
 .modal-dialog .modal-content .form-control {
-    border: none;
+  border: none;
 }
+
 .modal-dialog .modal-content label {
-    text-align: right;
+  text-align: right;
 }
 
 .modal-dialog .modal-footer {
-    padding: 5px;
-    padding-top: 0;
+  padding: 5px;
+  padding-top: 0;
 }
+
 body.modal-open {
-    overflow: auto;
-    padding-right: 0 !important; /* csslint allow: important */
+  overflow: auto;
+  padding-right: 0 !important; /* csslint allow: important */
 }

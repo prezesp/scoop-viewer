@@ -8,6 +8,7 @@ from flask import Flask, render_template, request, Response, jsonify, abort
 from flask_executor import Executor
 from providers import ScoopNotInstalled
 from webapp.utils import get_apps, shutdown_server, get_provider, get_buckets, MAIN_BUCKET
+from webapp.controllers.settings import settings_routes
 
 # Hack for pyinstaller
 # pylint: disable=E1101, W0212, C0103, W0612
@@ -41,6 +42,7 @@ def create_app(config_name):
     app.config['bucket'] = config['SCOOP_BUCKET']
     app.config['extra_buckets'] = config['EXTRA_BUCKETS']
 
+    app.register_blueprint(settings_routes)
 
     @app.route('/shutdown')
     def shutdown():

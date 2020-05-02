@@ -7,6 +7,7 @@ import re
 from flask import request
 from explorer import Explorer
 from providers import ScoopProvider, ScoopMockProvider
+from core.config import Config
 
 MAIN_BUCKET = "Main-bucket"
 
@@ -37,6 +38,9 @@ def get_apps(provider, bucket_path, query):
     # check if already installed
     for app in apps:
         app['installed'] = app['name'] in installed
+
+    if Config().get('INSTALLED_ON_TOP') == 'true':
+        apps.sort(key=lambda app: app['installed'], reverse=True)
 
     return apps
 

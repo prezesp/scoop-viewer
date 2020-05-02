@@ -2,7 +2,7 @@ var gulp = require('gulp');
 var webpack = require('webpack-stream');
 var webpack2 = require('webpack');
 
-gulp.task('copy', function() {
+gulp.task('copy', gulp.series(function() {
     gulp.src([
         'node_modules/bootstrap/dist/**/*',
         '!**/npm.js',
@@ -29,13 +29,13 @@ gulp.task('copy', function() {
     ])
         .pipe(gulp.dest('../static/vendor/ladda'));
 
-    gulp.src([
+    return gulp.src([
         'node_modules/bootstrap.native/dist/bootstrap-native-v4.min.js'
     ])
         .pipe(gulp.dest('../static/vendor/bootstrap.native'));
-});
+}));
 
-gulp.task('webpack', function() {
+gulp.task('webpack', gulp.series(function() {
     return gulp.src('./app.jsx').pipe(webpack({
         //watch: true,
         output: {
@@ -68,6 +68,6 @@ gulp.task('webpack', function() {
             })
         ]
     }, webpack2)).pipe(gulp.dest('../'));
-});
+}));
 
-gulp.task('default', ['copy', 'webpack']);
+gulp.task('default', gulp.series('copy', 'webpack'));

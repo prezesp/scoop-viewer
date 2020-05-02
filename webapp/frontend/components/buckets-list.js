@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import AddBucketDialog from './dialogs/add-bucket-dialog';
+import Loader from './loader';
 
 class BucketsList extends Component {
     constructor(props) {
@@ -21,7 +22,7 @@ class BucketsList extends Component {
     }
     
     getBuckets() {
-        axios.get(this.apiRoot + '/buckets', {
+        axios.get(this.apiRoot + '/buckets?' + Date.now(), {
             headers: { Pragma: 'no-cache'}
         }).then(res => {
             const buckets = res.data;
@@ -45,12 +46,7 @@ class BucketsList extends Component {
                 </li>
 
             ))
-        ) : (
-            <div className="text-center">
-                <p><i className="fa fa-cog fa-spin" style={{fontSize:'32px', color:'#fff'}}></i></p>
-                <p style={{color:'#fff'}}>Loading...</p>
-            </div>
-        );
+        ) : (<Loader/>);
         return (
             <div>
                 <ul className="nav flex-column">
