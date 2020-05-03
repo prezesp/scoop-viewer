@@ -1,6 +1,10 @@
-var gulp = require('gulp');
-var webpack = require('webpack-stream');
-var webpack2 = require('webpack');
+const gulp = require('gulp');
+const sass = require('gulp-sass');
+const watchSass = require('gulp-watch-sass');
+const webpack = require('webpack-stream');
+const webpack2 = require('webpack');
+
+let webpackWatch = false;
 
 gulp.task('copy', gulp.series(function() {
     gulp.src([
@@ -35,9 +39,20 @@ gulp.task('copy', gulp.series(function() {
         .pipe(gulp.dest('../static/vendor/bootstrap.native'));
 }));
 
+gulp.task('sass', gulp.series(function() {
+    return gulp.src('scss/styles.scss')
+        .pipe(sass())
+        .pipe(gulp.dest('../static'));
+}));
+
+gulp.task('sass:watch', gulp.series(() => watchSass([
+    'scss/**/*.scss'
+]).pipe(sass())
+    .pipe(gulp.dest('../static'))));
+
 gulp.task('webpack', gulp.series(function() {
     return gulp.src('./app.jsx').pipe(webpack({
-        //watch: true,
+        watch: webpackWatch,
         output: {
             path: __dirname,
             filename: 'static/js/bundle.js'
@@ -70,4 +85,12 @@ gulp.task('webpack', gulp.series(function() {
     }, webpack2)).pipe(gulp.dest('../'));
 }));
 
-gulp.task('default', gulp.series('copy', 'webpack'));
+gulp.task('webpack:watch', gulp.series(() => {
+    // This task sets only a variable to change webpack watch mode
+    // and launches webpack.
+    webpackWatch = true;
+    return gulp.src('.');
+}, 'webpack'));
+
+gulp.task('default', gulp.series('copy', 'sass', 'webpack'));
+gulp.task('watch', gulp.parallel(gulp.series('copy', 'webpack:watch'), 'sass:watch'));
