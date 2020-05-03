@@ -1,0 +1,28 @@
+div.bottom-panel {
+  background: #cc6633;
+  color: #fff;
+
+  & .dropdown-item {
+    font-size: 14px;
+  }
+  & .dropdown-menu {
+    border-radius: 0;
+  }
+}
+
+.btn-bottom-panel {
+  color: #fff;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  margin: 0 0 0 15px;
+  padding: 0.1rem 0.5rem;
+
+  &:hover {
+    background: #d07f55;
+  }
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}

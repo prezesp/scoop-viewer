@@ -77,7 +77,7 @@ def create_app(config_name):
         provider = get_provider(app.config)
         # fix main bucket
         bucket = app.config['bucket'] if name == MAIN_BUCKET else os.path.join(app.config['extra_buckets'], name)
-        apps = get_apps(provider, bucket, None)
+        apps = get_apps(provider, bucket, None, request.args.get('installed_only') == 'true')
         return Response(json.dumps(apps), mimetype='application/json')
 
     @app.route('/bucket', methods=['POST'])
@@ -105,7 +105,7 @@ def create_app(config_name):
         buckets = get_buckets(app.config['bucket'], [app.config['extra_buckets']])
         for bucket in buckets:
             bucket_dir = app.config['bucket'] if bucket['name'] == MAIN_BUCKET else os.path.join(app.config['extra_buckets'], bucket['name'])
-            apps.extend(get_apps(provider, bucket_dir, query))
+            apps.extend(get_apps(provider, bucket_dir, query, request.args.get('installed_only') == 'true'))
         
         return Response(json.dumps(apps), mimetype='application/json')
         #return render_template('index.html', apps=get_apps(provider, app.config['bucket'], query), q=query)

@@ -12,9 +12,11 @@ class App extends React.Component {
         super(props);
 
         this.state = {
+            all: true,
+            apps: 0,
             currentBucket: 'Main-bucket',
             query: '',
-            page: 'buckets'
+            page: 'buckets',
         };
         this.apiRoot = this.props.apiRoot;
         this.changePage = this.changePage.bind(this);
@@ -36,7 +38,11 @@ class App extends React.Component {
 
     render() {
         const page = this.state.page == 'buckets' ? 
-            (<BucketContainer name={this.state.currentBucket} query={this.state.query} apiRoot={this.apiRoot}/>) :
+            (<BucketContainer name={this.state.currentBucket}
+                all={this.state.all}
+                query={this.state.query}
+                handleLoad= {(apps) => this.setState({ apps })}
+                apiRoot={this.apiRoot}/>) :
             (<SettingsPage apiRoot={this.apiRoot} />);
         return (
             <div>
@@ -49,7 +55,7 @@ class App extends React.Component {
                             <Header active={this.state.page} onSearch={this.handleSearch} onPageChange={this.changePage}/>
                             { page }
                         </main>
-                        <BottomPanel/>
+                        <BottomPanel apps={ this.state.apps } handleToggle= {(all) => this.setState({ all })}/>
                     </div>
                 </div>
             </div>

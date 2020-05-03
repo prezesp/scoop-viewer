@@ -27,7 +27,7 @@ def expandvars(text):
     return os.path.expandvars(text)
 
 
-def get_apps(provider, bucket_path, query):
+def get_apps(provider, bucket_path, query, only_installed=False):
     """ Get all apps from bucket. """
     ex = Explorer()
     logging.info('Read bucket: %s', bucket_path)
@@ -38,6 +38,9 @@ def get_apps(provider, bucket_path, query):
     # check if already installed
     for app in apps:
         app['installed'] = app['name'] in installed
+
+    if only_installed:
+        apps = [app for app in apps if app['installed']]
 
     if Config().get('INSTALLED_ON_TOP') == 'true':
         apps.sort(key=lambda app: app['installed'], reverse=True)
