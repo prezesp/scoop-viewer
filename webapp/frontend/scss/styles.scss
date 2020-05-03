@@ -1,10 +1,11 @@
 div.bottom-panel {
-  background: #cc6633;
+  background: #c63;
   color: #fff;
 
   & .dropdown-item {
     font-size: 14px;
   }
+
   & .dropdown-menu {
     border-radius: 0;
   }
@@ -21,6 +22,7 @@ div.bottom-panel {
   &:hover {
     background: #d07f55;
   }
+
   &:focus {
     outline: none;
     box-shadow: none;

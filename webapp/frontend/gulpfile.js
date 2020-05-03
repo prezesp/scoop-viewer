@@ -41,14 +41,14 @@ gulp.task('copy', gulp.series(function() {
 
 gulp.task('sass', gulp.series(function() {
     return gulp.src('scss/styles.scss')
-      .pipe(sass())
-      .pipe(gulp.dest('../static'));
+        .pipe(sass())
+        .pipe(gulp.dest('../static'));
 }));
 
 gulp.task('sass:watch', gulp.series(() => watchSass([
     'scss/**/*.scss'
 ]).pipe(sass())
-.pipe(gulp.dest('../static'))));
+    .pipe(gulp.dest('../static'))));
 
 gulp.task('webpack', gulp.series(function() {
     return gulp.src('./app.jsx').pipe(webpack({

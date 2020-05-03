@@ -85,7 +85,8 @@ class BucketContainer extends Component {
 BucketContainer.propTypes = {
     apiRoot: PropTypes.string,
     name: PropTypes.string,
-    query: PropTypes.string
+    query: PropTypes.string,
+    handleLoad: PropTypes.func
 };
 
 export default BucketContainer;

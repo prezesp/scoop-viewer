@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class ToggleInstalledButton extends Component {
     constructor(props) {
@@ -19,7 +20,7 @@ class ToggleInstalledButton extends Component {
         return (
             <div className="btn-group show dropup" role="group">
                 <button id="btnGroupDrop1" type="button" className="btn btn-sm btn-bottom-panel dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                { this.state.all ? 'All' : 'Installed' }
+                    { this.state.all ? 'All' : 'Installed' }
                 </button>
                 <div className="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop1">
                     <a className="dropdown-item" href="#" onClick={ () => this.toggle() }>{ !this.state.all ? 'All' : 'Installed' }</a>
@@ -27,7 +28,7 @@ class ToggleInstalledButton extends Component {
             </div>
         );
     }
-};
+}
 
 const BottomPanel = (props) => {
     return (
@@ -37,7 +38,7 @@ const BottomPanel = (props) => {
                     <div className="offset-md-8 col-md-4 text-right">
                         <div className="btn-group" role="group" aria-label="Button group with nested dropdown">
                             <button type="button" className="btn btn-sm btn-bottom-panel">
-                                Packages <span class="badge badge-light">{ props.apps }</span>
+                                Packages <span className="badge badge-light">{ props.apps }</span>
                             </button>
                             <ToggleInstalledButton handleToggle={props.handleToggle}/>
                         </div>
@@ -46,6 +47,15 @@ const BottomPanel = (props) => {
             </div>
         </div>
     );
+};
+
+ToggleInstalledButton.propTypes = {
+    handleToggle: PropTypes.func
+};
+
+BottomPanel.propTypes = {
+    apps: PropTypes.int,
+    handleToggle: PropTypes.func
 };
 
 export default BottomPanel;
