@@ -10,16 +10,18 @@ class BucketContainer extends Component {
         super(props);
 
         this.state = {
+            all: true,
             items: [],
             name: props.name,
             query: props.query,
             pending: true
         };
         this.apiRoot = this.props.apiRoot;
+        this.handleLoad = this.props.handleLoad;
     }
 
     _loadData() {
-        let url = this.apiRoot + (this.state.query.length > 0 ? `/search/${this.state.query}` : `/bucket/${this.state.name}`);
+        let url = this.apiRoot + (this.state.query.length > 0 ? `/search/${this.state.query}?installed_only=${!this.state.all}` : `/bucket/${this.state.name}?installed_only=${!this.state.all}&${Date.now()}`);
         axios.get(url, {
             cancelToken: new CancelToken((c) => {
                 this.cancel = c;
@@ -27,6 +29,7 @@ class BucketContainer extends Component {
         }).then(res => {
             const items = res.data;
             this.setState({ items, pending: false });
+            this.handleLoad(items.length);
             this.cancel = null;
         });
     }
@@ -43,12 +46,15 @@ class BucketContainer extends Component {
                 this.cancel();
                 this._loadData();
             }
+        } else if (prevState.all !== this.state.all) {
+            this._loadData();
         }
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.query !== prevState.query || nextProps.name !== prevState.name) {
+        if (nextProps.query !== prevState.query || nextProps.name !== prevState.name || nextProps.all !== prevState.all) {
             return {
+                all: nextProps.all,
                 items: [],
                 query: nextProps.query,
                 name: nextProps.name,
@@ -79,7 +85,8 @@ class BucketContainer extends Component {
 BucketContainer.propTypes = {
     apiRoot: PropTypes.string,
     name: PropTypes.string,
-    query: PropTypes.string
+    query: PropTypes.string,
+    handleLoad: PropTypes.func
 };
 
 export default BucketContainer;

@@ -1,6 +1,7 @@
 """ App to browse scoop packages. """
 
 import argparse
+import datetime
 import logging
 import platform
 import sys
@@ -88,7 +89,7 @@ def run():
     splash_screen()
 
     viewer = Viewer(None, title="scoop-viewer")
-    viewer.browser.LoadURL(ROOT_URL)
+    viewer.browser.LoadURL("{0}?{1}".format(ROOT_URL, int(datetime.datetime.now().timestamp())))
     viewer.Show()
 
     wx_app.MainLoop()
