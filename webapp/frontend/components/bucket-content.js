@@ -1,14 +1,33 @@
 import React from 'react';
 import BucketContentItem from './bucket-content-item';
 import PropTypes from 'prop-types';
+import { FixedSizeList as List } from 'react-window';
+import AutoSizer from 'react-virtualized-auto-sizer';
+
+const Row = props => {
+    const { data, index, style } = props;
+    const item = data.items[index];
+    return (<div style={style}>
+        <BucketContentItem key={item.name} {...item} apiRoot={data.apiRoot}/>
+    </div>);
+};
 
 const BucketContent = (props) => {
-    const content = props.items.map(item => {
-        return (<BucketContentItem key={item.name} {...item} apiRoot={props.apiRoot}/>);
-    });
     return (
-        <div>
-            {content}
+        <div style={{ 'min-height': '88vh', 'margin': '0 -15px'}}>
+        <AutoSizer>
+            {({ height, width }) => (
+            <List
+                className='List'
+                height={height}
+                itemCount={props.items.length}
+                itemSize={146}
+                itemData={props}
+                width={width}>
+                {Row}
+            </List>
+            )}
+        </AutoSizer>
         </div>
     );
 };

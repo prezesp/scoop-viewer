@@ -119,7 +119,7 @@ class BucketContentItem extends Component {
             <div className="row">
                 <div className="col-sm-9">
                     <h4>{ this.state.name }</h4>
-                    <p>{ this.state.description }</p>
+                    <p className="description">{ this.state.description }</p>
                     <p><small><a href={this.state.homepage} rel='noopener noreferrer' target="_blank">{this.state.homepage}</a></small></p>
                 </div>
                 <div className="col-sm-3 text-right">

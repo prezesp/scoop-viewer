@@ -60,7 +60,7 @@ class SimpleTests(TestBase):
         wait = ui.WebDriverWait(driver,10)
 
         wait.until(lambda driver: "Loading" not in driver.page_source)
-        elem = driver.find_element_by_css_selector("#app > div > div > div > main.col-md-9 > div > div > div:nth-child(1) > div.col-sm-3.text-right > button")
+        elem = driver.find_element_by_css_selector("#app > div > div > div > main > div > div > div:nth-child(1) > div > div > div:nth-child(1) > div > div.col-sm-3.text-right > button")
         elem.click()
         wait.until(lambda driver: "Installed" in driver.page_source)
         self.assertTrue("Installed" in driver.page_source)
