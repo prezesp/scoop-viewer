@@ -3,8 +3,17 @@ const sass = require('gulp-sass');
 const watchSass = require('gulp-watch-sass');
 const webpack = require('webpack-stream');
 const webpack2 = require('webpack');
+const concat = require('gulp-concat');
+const minifyCSS = require('gulp-minify-css');
 
 let webpackWatch = false;
+
+gulp.task('css', gulp.series(function() {
+    return gulp.src('css/**/*.css')
+        .pipe(minifyCSS())
+        .pipe(concat('custom.min.css'))
+        .pipe(gulp.dest('../static'));
+}));
 
 gulp.task('copy', gulp.series(function() {
     gulp.src([
@@ -92,5 +101,5 @@ gulp.task('webpack:watch', gulp.series(() => {
     return gulp.src('.');
 }, 'webpack'));
 
-gulp.task('default', gulp.series('copy', 'sass', 'webpack'));
-gulp.task('watch', gulp.parallel(gulp.series('copy', 'webpack:watch'), 'sass:watch'));
+gulp.task('default', gulp.series('css', 'copy', 'sass', 'webpack'));
+gulp.task('watch', gulp.parallel(gulp.series('css', 'copy', 'webpack:watch'), 'sass:watch'));

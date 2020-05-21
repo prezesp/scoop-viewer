@@ -29,11 +29,11 @@ def expandvars(text):
 
 def get_apps(provider, bucket_path, query, only_installed=False):
     """ Get all apps from bucket. """
-    ex = Explorer()
+    explorer = Explorer()
     logging.info('Read bucket: %s', bucket_path)
-    apps = ex.get_apps(expandvars(bucket_path), query)
+    apps = explorer.get_apps(expandvars(bucket_path), query)
     logging.info("Apps count = %d", len(apps))
-    installed = provider.get_installed()
+    installed = explorer.get_installed(os.path.join(expandvars('%SCOOP%'), 'apps'))
 
     # check if already installed
     for app in apps:
