@@ -29,5 +29,5 @@ $ scoopviewer
 
 How it looks
 -
-![screen](https://user-images.githubusercontent.com/20465770/39327603-c84ebb48-4998-11e8-8d52-1f54df61a394.png)
+![screen](https://user-images.githubusercontent.com/20465770/82605520-54f64400-9bb6-11ea-850b-f47df726bed4.png)
 
