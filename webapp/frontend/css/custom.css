@@ -16,6 +16,7 @@ main h4 {
 main div.row {
   border: 0;
   border-bottom: 3px solid rgba(0, 0, 0, 0.1);
+  margin: 0;
   padding-bottom: 0.2rem;
   padding-top: 1.2rem;
 }
@@ -26,6 +27,11 @@ main div.row:hover {
 
 main div.row p {
   font-family: 'Consolas', monospace;
+}
+
+main div.row p.description {
+  overflow-y: auto;
+  height: 40px;
 }
 
 main div.row a {

@@ -107,3 +107,4 @@ webapp/static/js/bundle.js
 
 # visual studio code
 .vscode/
+webapp/static/custom.min.css

@@ -41,6 +41,11 @@ class Explorer():
 
         return apps
 
+    def get_installed(self, directory):
+        if not os.path.exists(directory):
+            return []
+        return [f.name for f in os.scandir(directory) if f.is_dir()]
+
     def get_buckets(self, directory):
         """ Get all scoop buckets. """
         buckets = []
