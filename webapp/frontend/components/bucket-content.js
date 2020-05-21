@@ -12,22 +12,32 @@ const Row = props => {
     </div>);
 };
 
+Row.propTypes = {
+    data: PropTypes.shape({
+        items: PropTypes.arrayOf(PropTypes.shape({
+            name: PropTypes.string
+        })),
+        apiRoot: PropTypes.string
+    }),
+};
+
+
 const BucketContent = (props) => {
     return (
         <div style={{ 'min-height': '88vh', 'margin': '0 -15px'}}>
-        <AutoSizer>
-            {({ height, width }) => (
-            <List
-                className='List'
-                height={height}
-                itemCount={props.items.length}
-                itemSize={146}
-                itemData={props}
-                width={width}>
-                {Row}
-            </List>
-            )}
-        </AutoSizer>
+            <AutoSizer>
+                {({ height, width }) => (
+                    <List
+                        className='List'
+                        height={height}
+                        itemCount={props.items.length}
+                        itemSize={146}
+                        itemData={props}
+                        width={width}>
+                        {Row}
+                    </List>
+                )}
+            </AutoSizer>
         </div>
     );
 };
