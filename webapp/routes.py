@@ -9,6 +9,7 @@ from flask_executor import Executor
 from providers import ScoopNotInstalled
 from webapp.utils import get_apps, shutdown_server, get_provider, get_buckets, MAIN_BUCKET
 from webapp.controllers.settings import settings_routes
+from webapp.controllers.scoop import scoop_routes
 
 # Hack for pyinstaller
 # pylint: disable=E1101, W0212, C0103, W0612
@@ -43,6 +44,7 @@ def create_app(config_name):
     app.config['extra_buckets'] = config['EXTRA_BUCKETS']
 
     app.register_blueprint(settings_routes)
+    app.register_blueprint(scoop_routes)
 
     @app.route('/shutdown')
     def shutdown():

@@ -90,3 +90,10 @@ class ScoopProvider:
             return False
         return True
 
+    def update(self):
+        stdout, _ = self.__run_scoop(['update']).communicate()
+        print(stdout)
+
+    def clear_cache(self):
+        stdout, _ = self.__run_scoop(['cache rm *']).communicate()
+        print(stdout)

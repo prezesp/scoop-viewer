@@ -52,7 +52,7 @@ main div.row a:hover {
   top: 0;
   bottom: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 100;
   padding: 12px 10px;
   overflow-x: hidden;
   overflow-y: auto;

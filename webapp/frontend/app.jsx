@@ -6,6 +6,7 @@ import BucketsList from './components/buckets-list';
 import BucketContainer from './components/bucket-container';
 import Header from './components/header';
 import SettingsPage from './pages/settings';
+import MyComponent from 'react-fullpage-custom-loader'
 
 class App extends React.Component {
     constructor(props) {
@@ -17,6 +18,8 @@ class App extends React.Component {
             currentBucket: 'Main-bucket',
             query: '',
             page: 'buckets',
+            updating: false,
+            updating_msg: ''
         };
         this.apiRoot = this.props.apiRoot;
         this.changePage = this.changePage.bind(this);
@@ -44,6 +47,7 @@ class App extends React.Component {
                 handleLoad= {(apps) => this.setState({ apps })}
                 apiRoot={this.apiRoot}/>) :
             (<SettingsPage apiRoot={this.apiRoot} />);
+        const loader = this.state.updating ? (<MyComponent sentences={[this.state.updating_msg]} fadeIn/>) : (<div/>);
         return (
             <div>
                 <div className="container-fluid">
@@ -55,9 +59,13 @@ class App extends React.Component {
                             <Header active={this.state.page} onSearch={this.handleSearch} onPageChange={this.changePage}/>
                             { page }
                         </main>
-                        <BottomPanel apps={ this.state.apps } handleToggle= {(all) => this.setState({ all })}/>
+                        <BottomPanel
+                            apps={ this.state.apps }
+                            handleToggle= {(all) => this.setState({ all })}
+                            handleUpdating = { (updating, updating_msg) => this.setState({ updating, updating_msg }) }/>
                     </div>
                 </div>
+                {loader}
             </div>
         );
     }

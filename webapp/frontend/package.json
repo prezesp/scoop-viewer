@@ -28,6 +28,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
+    "react-fullpage-custom-loader": "^0.1.5",
     "react-virtualized-auto-sizer": "^1.0.2",
     "react-window": "^1.8.5",
     "webpack": "^4.5.0",
